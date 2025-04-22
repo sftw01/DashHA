@@ -28,7 +28,8 @@ jobs:
             git pull origin master
 
             echo ">>> Publikuję aplikację do katalogu produkcyjnego"
-            dotnet publish /DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
+	    dotnet publish /var/www/git/DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
+
 
             echo ">>> Restartuję usługę systemd"
             sudo systemctl restart dashha
