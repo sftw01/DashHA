@@ -23,9 +23,17 @@ jobs:
       - name: Deploy via SSH
         run: |
           sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+
             echo ">>> Wchodzę do repo i pulluję najnowszy kod"
-            cd /var/www/git/DashHA
-            git pull origin master
+
+		if [ ! -d "/var/www/git/DashHA/.git" ]; then
+  			echo ">>> Repozytorium nie istnieje – klonuję"
+  			git clone https://github.com/sftw01/DashHA.git /var/www/git/DashHA
+		else
+  			echo ">>> Repozytorium istnieje – wykonuję git pull"
+  			cd /var/www/git/DashHA
+  			git pull origin master
+		fi
 
             echo ">>> Publikuję aplikację do katalogu produkcyjnego"
             dotnet publish DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
