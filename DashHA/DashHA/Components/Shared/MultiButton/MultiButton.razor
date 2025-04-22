@@ -1,0 +1,52 @@
+﻿    @inject NavigationManager NavigationManager
+
+
+@* <div class="multi-button"> *@
+   
+@*         <i class="fa-solid fa-bars"></i> *@
+
+@* </div> *@
+
+
+
+
+
+
+
+
+@* @code { *@
+@*     [Parameter] *@
+@*     public string? NavigationTarget { get; set; } = string.Empty; // destination page *@
+@*     [Parameter] *@
+@*     public EventCallback<string> Callback { get; set; } // callback *@
+
+@*     private async Task HandleClick() *@
+@*     { *@
+
+@*         Console.WriteLine("FloatingButtonBack: HandleClick"); *@
+
+@*         // Case 1: If no target is set, only invoke the callback (if exists) *@
+@*         if (string.IsNullOrEmpty(NavigationTarget)) *@
+@*         { *@
+@*             if (Callback.HasDelegate) *@
+@*             { *@
+@*                 await Callback.InvokeAsync(string.Empty); *@
+@*             } *@
+@*             return; *@
+@*         } *@
+
+@*         // Case 2: If target is set but no callback, only navigate *@
+@*         if (!Callback.HasDelegate) *@
+@*         { *@
+@*             NavigationManager.NavigateTo(NavigationTarget); *@
+@*             return; *@
+@*         } *@
+
+@*         // Case 3: If both target and callback are set, invoke the callback and navigate *@
+@*         if (Callback.HasDelegate) *@
+@*         { *@
+@*             await Callback.InvokeAsync(NavigationTarget); *@
+@*             NavigationManager.NavigateTo(NavigationTarget); *@
+@*         } *@
+@*     } *@
+@*     } *@

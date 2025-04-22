@@ -1,0 +1,25 @@
+﻿
+
+
+
+@* <div style="position: fixed; height: 60px; width: 60px; right: 20px; bottom: 20px; ">
+    <a href="@href" class="btn btn-primary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Text
+    </a>
+</div> *@
+
+<div class="button-back">
+    <a href="@href" class="btn btn-primary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Text
+    </a>
+</div>
+
+
+@code {
+    [Parameter]
+    public string href { get; set; } = "/";
+
+
+}

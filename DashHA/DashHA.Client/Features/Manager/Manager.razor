@@ -1,0 +1,342 @@
+﻿@page "/manager"
+@using DashHA.Client.Services
+@using DashHA.Shared
+@* @rendermode @(new InteractiveAutoRenderMode(false)) *@
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+@* @rendermode @(new InteractiveServerRenderMode(false)) *@
+
+@inject IMqttMessageService MqttMessageService
+
+@* @implements IAsyncDisposable *@
+
+@inject NavigationManager NavigationManager
+@* @attribute [Authorize] *@
+
+<div class="manager">
+    <section class="bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white min-h-[calc(100vh-8vh)] md:min-h-[calc(100vh-8vh)] ">
+        <div class="max-w-7xl " style="margin: 0 auto;">
+
+            <MudPaper Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+                <div class="panel">
+                    <div class="panel-display">
+                        <div>
+                            <MudTextField @bind-Value="topic"
+                                          Variant="Variant.Outlined"
+                                          Adornment="Adornment.End"
+                                          AdornmentText="Topic"
+                                          AdornmentColor="Color.Info"
+                                          Class="mb-4"
+                                          Style="background-color: #3b3b3b; color: #ffb74d;" />
+
+                            <MudTextField @bind-Value="message"
+                                          Variant="Variant.Outlined"
+                                          Adornment="Adornment.End"
+                                          AdornmentIcon="@Icons.Material.Filled.Topic"
+                                          AdornmentText="Message"
+                                          AdornmentColor="Color.Secondary"
+                                          Style="background-color: #3b3b3b; color: #eeeeee;"
+                                          @onclick="StopTimer" />
+                        </div>
+
+                    </div>
+
+                    <div class="panel-button" style="position: relative;">
+                        <div class="panel-btn-send">
+                            <MudButton Color="Color.Primary"
+                                       Variant="Variant.Filled"
+                                       StartIcon="@Icons.Material.Filled.Save"
+                                       IconColor="Color.Secondary"
+                                       Size="Size.Large"
+                                       OnClick="SendMessage"
+                                       Style="width: 100%">
+                                Send
+                            </MudButton>
+                        </div>
+
+                        <div class="panel-btn-other">
+                            <div class="panel-btn">
+                                <MudButton Color="Color.Success"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.CastConnected"
+                                           IconColor="Color.Secondary"
+                                           Size="Size.Medium"
+                                           OnClick="Connect"
+                                           Style="width: 100%">
+                                    Connect
+                                </MudButton>
+                            </div>
+                            <div class="panel-btn">
+                                <MudButton Color="Color.Warning"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Remove"
+                                           IconColor="Color.Dark"
+                                           Size="Size.Medium"
+                                           OnClick="Disconnect"
+                                           Style="width: 100%">
+
+                                    Disconnect
+                                </MudButton>
+                            </div>
+                            <div class="panel-btn">
+                                <MudButton Color="Color.Info"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Speaker"
+                                           IconColor="Color.Dark"
+                                           Size="Size.Medium"
+                                           OnClick="SubscribeTopic"
+                                           Style="width: 100%">
+
+                                    Subscribe
+                                </MudButton>
+                            </div>
+                            <div class="panel-btn">
+                                <MudButton Color="Color.Error"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Speaker"
+                                           IconColor="Color.Dark"
+                                           Size="Size.Medium"
+                                           OnClick="UnsubscribeTopic"
+                                           Style="width: 100%">
+
+                                    Unsubscribe
+                                </MudButton>
+                            </div>
+                        </div>
+                        <div class="message-info-box">
+                            <div class="message-info">
+                                @if (!string.IsNullOrEmpty(infoMessage.Message))
+                                {
+                                    <MudPaper Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+
+                                        <MudText Class="text-sm sm:text-base md:text-lg"
+                                                 Typo="Typo.h5"
+                                                 Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                                            <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
+                                                     Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                                                     Size="Size.Medium" />
+
+                                            @infoMessage.Message
+
+                                        </MudText>
+                                    </MudPaper>
+
+                                }
+                                else
+                                {
+
+                                    @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
+
+                                }
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </MudPaper>
+
+            <MudPaper Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+                <div class="panel-message" style="position: relative;">
+                    <MudPaper Elevation="3"
+                              Class="py-4 px-2 my-2 mt-1 rounded-lg"
+                              Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+
+        
+
+                        @if (MqttMessageService.Messages is null || MqttMessageService.Messages.Count == 0)
+                        {
+                            <div class="pa-2"
+                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                                <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
+                                    Message List Empty
+                                </MudAlert>
+                            </div>
+                        }
+                        else
+                        {
+
+                            <div style="position: absolute; top: 15px; right: 15px; ">
+                                <MudButton @onclick="OnClickDelete" Color="Color.Error" Variant="Variant.Filled" Style="min-width: 30px; width: 30px; height: 30px;">
+                                    <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                                </MudButton>
+                            </div>
+
+
+                            <ul>
+                                @foreach (var message in MqttMessageService.Messages)
+                                {
+                                    <li>
+                                        <MudAlert Severity="Severity.Normal" Variant="Variant.Filled" Class="my-1">
+                                            <span style="color:darkorange">
+                                                @message.Topic:
+                                            </span>
+                                            <span style="color: darkgray">
+                                                @message.Payload
+                                            </span>
+                                        </MudAlert>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+
+                    </MudPaper>
+                </div>
+            </MudPaper>
+
+
+
+
+        </div>
+
+    </section>
+</div>
+
+@code {
+    private int counter = 0;
+    private Timer? timer;
+
+    private InfoMessage infoMessage = new InfoMessage(false, string.Empty);
+
+    public string message { get; set; } = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
+    public string topic { get; set; } = "sensor1";
+
+    private CancellationTokenSource? _cts;
+
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(Timer1sEvent, null, 0, 1000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await MqttMessageService.StartAsync();
+
+
+
+        MqttMessageService.OnMessageReceived += OnMessageReceived;
+    }
+
+
+
+    private void Timer1sEvent(object? state)
+    {
+        message = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SendMessage()
+    {
+        counter++;
+        string showStatusMessage = "Wysyłanie wiadomości... ";
+        var tempMessage = message;
+        //set info message is sending
+        message = showStatusMessage;
+        StateHasChanged();
+        var response = await MqttMessageService.SendMessageAsync(tempMessage);
+        //after that, restore the original message and count time
+        StartTimer();
+        DisplayResponseMessage(response);
+    }
+
+    private async Task Connect()
+    {
+        var response = await MqttMessageService.ConnectAsync();
+        DisplayResponseMessage(response);
+    }
+
+    private async Task Disconnect()
+    {
+        var response = await MqttMessageService.DisconnectAsync();
+        DisplayResponseMessage(response);
+    }
+
+    private async Task SubscribeTopic()
+    {
+        var response = await MqttMessageService.SubscribeAsync(topic);
+        DisplayResponseMessage(response);
+    }
+
+    private async Task UnsubscribeTopic()
+    {
+        var response = await MqttMessageService.UnsubscribeAsync(topic);
+        DisplayResponseMessage(response);
+    }
+
+    private void SetInfoMessage(bool success, string message)
+    {
+        //cancel the previous timer if it exists
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+
+        infoMessage.Message = message;
+        infoMessage.Success = success;
+        StateHasChanged();
+
+        // set a new timer to clear the message after 5 seconds
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(5000, _cts.Token);
+                ClearInfoMessage(message);
+            }
+            catch (TaskCanceledException)
+            {
+                // client canceled the task, do nothing
+            }
+        });
+    }
+
+    private void ClearInfoMessage(string message)
+    {
+        // check if the message is the same as the one we want to clear
+        if (infoMessage.Message == message)
+        {
+            infoMessage.Message = string.Empty;
+            StateHasChanged();
+        }
+    }
+
+    public void DisplayResponseMessage(MqttStatusResponse response)
+    {
+        if (response.Success)
+        {
+            SetInfoMessage(response.Success, response.MessageList.FirstOrDefault() ?? "Unknown info");
+        }
+        else
+        {
+            SetInfoMessage(response.Success, response.MessageList.FirstOrDefault() ?? "Unknown error");
+        }
+    }
+
+    private void OnMessageReceived(MqttMessage message)
+    {
+        //only update the UI when OnMessageReceived is called - not fetch data, all is stored in MqttMessageService on client
+        //all messages are storaged in MqttService on server - lifetime
+        Console.WriteLine($"Received message: {message.Topic} - {message.Payload}");
+        StateHasChanged();
+    }
+
+    private void StopTimer()
+    {
+        //stop timer
+        timer?.Change(Timeout.Infinite, Timeout.Infinite);
+    }
+
+    private void StartTimer()
+    {
+        timer?.Change(0, 1000);
+    }
+
+    private void OnClickDelete()
+    {
+        MqttMessageService.Messages.Clear();
+        StateHasChanged();
+    }
+}
+
+
+
+

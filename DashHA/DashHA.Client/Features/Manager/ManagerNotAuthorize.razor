@@ -1,0 +1,317 @@
+﻿@page "/managerNotAuthorize"
+@using DashHA.Shared
+@rendermode @(new InteractiveWebAssemblyRenderMode(false))
+
+@implements IAsyncDisposable
+
+@inject NavigationManager NavigationManager
+@* @attribute [Authorize] *@
+
+<div>
+
+
+
+    <section class="bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white min-h-[calc(100vh-8vh)] md:min-h-[calc(100vh-8vh)] ">
+
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <h1 class="drop-shadow-lg text-center py-4" style=" font-size: 8rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
+                🚫
+            </h1>
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 drop-shadow-lg text-center">
+                MQTT Manager
+            </h1>
+            <h2 class="text-2xl font-bold mb-4 drop-shadow-lg text-center">
+                Dostęp nieautoryzowany!
+            </h2>
+            <p class="text-lg sm:text-xl text-white/80 mb-10 max-w-2xl mx-auto text-justify">
+                Jako gość masz dostęp do danych z ESP32 i możesz zmieniać ustawienia MQTT – wszystko w czasie rzeczywistym.
+            </p>
+        </div>
+
+        <div class="max-w-7xl "
+             style="margin: 0 auto;
+ ">
+
+            <div style="display: flex; flex-direction: column; padding: 40px; gap: 24px; max-width: 500px; margin: auto;">
+
+                <MudPaper Elevation="3" Class="p-6 rounded-lg" Style="background-color: #2e2e2e; color: white;">
+
+                    <MudTextField @bind-Value="topic"
+                                  Label="Weight"
+                                  Variant="Variant.Outlined"
+                                  Adornment="Adornment.End"
+                                  AdornmentText="Kg"
+                                  AdornmentColor="Color.Info"
+                                  Class="mb-4"
+                                  Style="background-color: #3b3b3b; color: #ffb74d;" />
+
+                    <MudTextField @bind-Value="message"
+                                  Label="Search"
+                                  Variant="Variant.Outlined"
+                                  Adornment="Adornment.End"
+                                  AdornmentIcon="@Icons.Material.Filled.Search"
+                                  AdornmentColor="Color.Secondary"
+                                  Style="background-color: #3b3b3b; color: #eeeeee;" />
+                </MudPaper>
+
+
+
+
+
+                <div style="display: flex; flex-direction: column; gap: 12px;">
+
+                    <MudButton Color="Color.Primary"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Save"
+                               IconColor="Color.Secondary"
+                               Size="Size.Large"
+                               OnClick="SendMessage">
+                        Send
+                    </MudButton>
+
+                    <MudButton Color="Color.Success"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.CastConnected"
+                               IconColor="Color.Secondary"
+                               Size="Size.Large"
+                               OnClick="Connect">
+                        Connect
+                    </MudButton>
+
+                    <MudButton Color="Color.Warning"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Remove"
+                               IconColor="Color.Dark"
+                               Size="Size.Large"
+                               OnClick="Disconnect">
+                        Disconnect
+                    </MudButton>
+
+                    <MudButton Color="Color.Info"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Speaker"
+                               IconColor="Color.Dark"
+                               Size="Size.Large"
+                               OnClick="SubscribeTopic">
+                        Subscribe
+                    </MudButton>
+
+                    <MudButton Color="Color.Error"
+                               Variant="Variant.Filled"
+                               StartIcon="@Icons.Material.Filled.Speaker"
+                               IconColor="Color.Dark"
+                               Size="Size.Large"
+                               OnClick="UnsubscribeTopic">
+                        Unsubscribe
+                    </MudButton>
+                </div>
+
+                @if (!string.IsNullOrEmpty(infoMessage.Message))
+                {
+                    <MudPaper Elevation="3" Class="p-6 rounded-lg" Style="background-color: #2e2e2e; color: white;">
+                        <MudText Class="text-sm sm:text-base md:text-lg"
+                        Typo="Typo.h5"
+                        Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                            <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
+                            Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                            Size="Size.Medium" />
+                            @infoMessage.Message
+                        </MudText>
+                    </MudPaper>
+                }
+
+                <MudPaper Elevation="3" Class="p-6 rounded-lg" Style="background-color: #2e2e2e; color: white;">
+                    @if (mqttMessages is null || mqttMessages.Count == 0)
+                    {
+                        <h1 style="text-align: center">Message List Empyt</h1>
+                    }
+                    <ul>
+                        @foreach (var message in mqttMessages)
+                        {
+                            <li style="color: #ffb74d; font-size: 14px;">
+                                @message.Topic: @message.Payload
+                            </li>
+                        }
+                    </ul>
+                </MudPaper>
+
+            </div>
+
+
+        </div>
+
+    </section>
+</div>
+
+@code {
+    private int counter = 0;
+    private Timer? timer;
+
+    private List<MqttMessage> mqttMessages = new List<MqttMessage>();
+    private InfoMessage infoMessage = new InfoMessage(false, string.Empty);
+
+    public string message { get; set; } = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
+    public string topic { get; set; } = "sensor1";
+
+    private HubConnection? hubConnection;
+
+    private CancellationTokenSource? _cts;
+
+
+    protected override void OnInitialized()
+    {
+        timer = new Timer(Timer1sEvent, null, 0, 1000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize the HubConnection - build it with the URL of the SignalR hub
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/hubmqtt"))
+            .Build();
+
+        // Subscribe to the message event from the hub
+        hubConnection.On<MqttMessage>("ReceiveMessage", (message) =>
+        {
+            Console.WriteLine($"Received message: {message.Topic} - {message.Payload}");
+            mqttMessages.Add(message);
+            StateHasChanged();
+        });
+
+        //start the connection
+        await hubConnection.StartAsync();
+    }
+
+
+
+    private class InfoMessage
+    {
+        public string Message { get; set; } = string.Empty;
+        public bool Success { get; set; } = false;
+
+        public InfoMessage(bool success, string message)
+        {
+            this.Message = message;
+            this.Success = success;
+        }
+    }
+
+    private void Timer1sEvent(object? state)
+    {
+        message = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SendMessage()
+    {
+
+        Console.WriteLine("Sending message to hub...");
+        if (hubConnection is null)
+            return;
+        var response = await hubConnection.InvokeAsync<MqttStatusResponse>("SendMessage", message);
+        counter++;
+
+        DisplayResponseMessage(response);
+
+    }
+
+    private async Task Connect()
+    {
+        Console.WriteLine("Connecting to hub...");
+        if (hubConnection is not null)
+        {
+            var response = await hubConnection.InvokeAsync<MqttStatusResponse>("Connect");
+
+            DisplayResponseMessage(response);
+        }
+    }
+
+    private async Task Disconnect()
+    {
+        if (hubConnection is null)
+            return;
+
+        var response = await hubConnection.InvokeAsync<MqttStatusResponse>("Disconnect");
+        DisplayResponseMessage(response);
+    }
+
+    private async Task SubscribeTopic()
+    {
+        if (hubConnection is null)
+            return;
+        var response = await hubConnection.InvokeAsync<MqttStatusResponse>("SubscribeTopic", topic);
+        DisplayResponseMessage(response);
+    }
+
+    private async Task UnsubscribeTopic()
+    {
+        if (hubConnection is null)
+            return;
+        var response = await hubConnection.InvokeAsync<MqttStatusResponse>("UnsubscribeTopic", topic);
+        DisplayResponseMessage(response);
+    }
+
+    private void SetInfoMessage(bool success, string message)
+    {
+        //cancel the previous timer if it exists
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+
+        infoMessage.Message = message;
+        infoMessage.Success = success;
+        StateHasChanged();
+
+        // set a new timer to clear the message after 5 seconds
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(5000, _cts.Token);
+                ClearInfoMessage(message);
+            }
+            catch (TaskCanceledException)
+            {
+                // client canceled the task, do nothing
+            }
+        });
+    }
+
+    private void ClearInfoMessage(string message)
+    {
+        // check if the message is the same as the one we want to clear
+        if (infoMessage.Message == message)
+        {
+            infoMessage.Message = string.Empty;
+            StateHasChanged();
+        }
+    }
+
+    public void DisplayResponseMessage(MqttStatusResponse response)
+    {
+        if (response.Success)
+        {
+            SetInfoMessage(response.Success, response.MessageList.FirstOrDefault() ?? "Unknown info");
+        }
+        else
+        {
+            SetInfoMessage(response.Success, response.MessageList.FirstOrDefault() ?? "Unknown error");
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        timer?.Dispose();
+
+        if (hubConnection is not null)
+        {
+            await hubConnection.StopAsync();
+            await hubConnection.DisposeAsync();
+        }
+
+    }
+
+}
+
+
+
+

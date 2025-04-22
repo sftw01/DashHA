@@ -1,0 +1,34 @@
+﻿@page "/manager/connectionSet"
+
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+
+
+<div class="connection-set">
+
+    dd
+
+</div>
+
+<button style="btn btn-primary" >send</button>
+
+@code {
+
+    private HubConnection? hubConnection;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Initialize the HubConnection - build it with the URL of the SignalR hub
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/mqtthub"))
+            .Build();
+
+        //start the connection
+        await hubConnection.StartAsync();
+    }
+
+
+
+}

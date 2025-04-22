@@ -1,0 +1,31 @@
+﻿
+@inject ILogger<DeviceStack> _logger
+
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 justify-center text-center">
+    <CascadingValue Value="IsEditable">
+        <TemperatureCard />
+        <HumidityCard />
+        <StatusCard />
+        <VoltageCard />
+    </CascadingValue>
+
+</div>
+
+
+
+
+@code {
+    //indicates whether the cards can be edited - passed as a cascading parameter
+    [Parameter]
+    public bool IsEditable { get; set; }
+
+
+    private void SwitchEditMode(MouseEventArgs args)
+    {
+        IsEditable = !IsEditable;
+        _logger.LogInformation("Edit mode");
+
+        StateHasChanged();
+    }
+}

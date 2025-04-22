@@ -1,0 +1,41 @@
+﻿body {
+}
+
+.multi-button {
+
+
+}
+
+
+
+
+/*.multi-button {
+    height: 30px;
+    width: 30px;
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+}
+
+.floating-button-style {
+    height: 14vw;
+    width: 20vw;
+    border-radius: 100px;
+    background-color: rgba(0,0,0, 0.7);
+    position: fixed;
+    bottom: 6vh;
+    right: 2vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;*/
+    /*    align-content: flex-start;*/
+    /*align-items: center;
+    z-index: 1;
+}
+
+    .floating-button-style i {
+        color: white;
+        font-size: 40px;
+        font-size: calc(10vw);
+        margin-left: 10px;
+    }*/

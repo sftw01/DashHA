@@ -1,0 +1,145 @@
+﻿@page "/"
+@rendermode InteractiveServer
+<PageTitle>MQTT Dashboard</PageTitle>
+
+
+
+@* <div style="margin-top: 8vh;"> *@
+<div>
+
+    <!-- 🟣 Hero / Banner -->
+    <section class="p-20 bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-8vh)] flex items-center justify-center px-6">
+        <div class="max-w-5xl text-center">
+            <h1 style="font-size: 12rem;">
+                🌐
+            </h1>
+            <h1 class="text-5xl font-extrabold leading-tight drop-shadow-lg">
+                Inteligentny Dashboard MQTT
+            </h1>
+            <p class="mt-6 text-lg text-white/90 max-w-xl mx-auto">
+                Połącz się z ESP32, odbieraj dane z Home Assistanta i miej wszystko pod kontrolą w czasie rzeczywistym. Bez kodowania, bez problemów.
+            </p>
+
+            <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+                <a href="/device" class="bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold px-6 py-3 rounded-lg shadow transition">
+                    Zobacz dane
+                </a>
+                <a href="/manager" class="border border-white/40 hover:bg-white/10 text-white font-medium px-6 py-3 rounded-lg shadow transition">
+                    Konfiguracja MQTT
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- 🔍 Sekcja „Jak to działa” -->
+    <section class="bg-gradient-to-br from-white via-indigo-50 to-purple-100 py-10 px-6">
+        <div class="max-w-5xl mx-auto text-center md:mt-10 md:mb-20">
+            <h1 class="drop-shadow-lg text-center" style=" font-size: 8rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
+                💡
+            </h1>
+            <h2 class="text-3xl sm:text-4xl font-bold text-indigo-900 mt-2 mb-12">Jak to działa?</h2>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-left text-gray-800">
+                <div class="p-6 bg-white border-l-4 border-indigo-500 rounded-lg shadow hover:shadow-xl transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2 text-indigo-700">1. Połącz urządzenia</h3>
+                    <p class="text-sm text-gray-600">
+                        ESP32 wysyła dane przez MQTT – aplikacja je odbiera natychmiast dzięki połączeniu z brokerem.
+                    </p>
+                </div>
+                <div class="p-6 bg-white border-l-4 border-purple-500 rounded-lg shadow hover:shadow-xl transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2 text-purple-700">2. Przeglądaj dane</h3>
+                    <p class="text-sm text-gray-600">
+                        Bieżąca temperatura, wilgotność i inne sensory – prezentowane w czytelnych kafelkach i wykresach.
+                    </p>
+                </div>
+                <div class="p-6 bg-white border-l-4 border-pink-500 rounded-lg shadow hover:shadow-xl transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2 text-pink-700">3. Działaj szybko</h3>
+                    <p class="text-sm text-gray-600">
+                        Ustaw alerty, reaguj na przekroczenia progów i analizuj historię z poziomu dashboardu.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 💡 Funkcje -->
+    <section class="bg-gray-900 py-20 px-6 text-white">
+        <div class="max-w-5xl mx-auto text-center md:mt-20 md:mb-20">
+
+            <h2 class="text-4xl font-bold mb-12">Co oferuje aplikacja?</h2>
+
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+
+                    <h1 style="font-size: 6rem; text-align: center;">📶</h1>
+                    <h3 class="text-2xl text-center  text-yellow-400 mb-3">
+                        Połączenie MQTT
+                    </h3>
+                    <p class="text-white/80 text-justify">Obsługa połączenia z brokerem MQTT (np. Mosquitto, HA), z możliwością konfiguracji topiców.</p>
+                </div>
+
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <h1 style="font-size: 6rem; text-align: center;">📊</h1>
+                    <h3 class="text-2xl text-center  text-yellow-400 mb-3">
+                        Wizualizacja danych
+                    </h3>
+                    <p class="text-white/80 text-justify">Przejrzyste wykresy, kafelki, alerty i statusy w czasie rzeczywistym – idealne do monitorowania domu.</p>
+                </div>
+
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <h1 style="font-size: 6rem; text-align: center;">⚙️</h1>
+                    <h3 class="text-2xl text-center  text-yellow-400 mb-3">
+                        Integracja z Home Assistant
+                    </h3>
+                    <p class="text-white/80 text-justify">Zbieraj dane z Home Assistant przez MQTT i zarządzaj nimi z poziomu nowoczesnego interfejsu.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 💡 Funkcje -->
+    <section class="bg-gray-900 py-20 px-6 text-white">
+        <div class="max-w-5xl mx-auto text-center md:mt-20 md:mb-20">
+            <h2 class="text-4xl font-bold mb-12">Co oferuje aplikacja?</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <h3 class="text-xl font-semibold text-yellow-400 mb-3">📶 Połączenie MQTT</h3>
+                    <p class="text-white/80">Obsługa połączenia z brokerem MQTT (np. Mosquitto, HA), z możliwością konfiguracji topiców.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <h3 class="text-xl font-semibold text-cyan-400 mb-3">📊 Wizualizacja danych</h3>
+                    <p class="text-white/80">Przejrzyste wykresy, kafelki, alerty i statusy w czasie rzeczywistym – idealne do monitorowania domu.</p>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-md hover:shadow-xl transition">
+                    <h3 class="text-xl font-semibold text-pink-400 mb-3">⚙️ Integracja z Home Assistant</h3>
+                    <p class="text-white/80">Zbieraj dane z Home Assistant przez MQTT i zarządzaj nimi z poziomu nowoczesnego interfejsu.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 🚀 Call to Action -->
+    <section class="bg-indigo-950 text-white py-20 px-6 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl font-bold mb-4">Zacznij teraz</h2>
+            <p class="text-lg text-white/80 mb-6">
+                W kilka minut możesz zbudować swój własny system monitorowania ESP i Home Assistanta!
+            </p>
+            <a href="/device"
+               class="inline-block bg-yellow-400 hover:bg-yellow-500 text-indigo-900 font-bold px-8 py-4 rounded-lg shadow-xl transition">
+                Start
+            </a>
+        </div>
+    </section>
+
+</div>
+
+

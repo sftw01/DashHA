@@ -1,0 +1,68 @@
+﻿body {
+}
+
+.panel {
+    padding: 30px;
+    min-height: 55vh;
+
+}
+
+.panel-message {
+    padding: 30px;
+    min-height: 40vh;
+}
+.manager{
+    min-height: 100vh;
+}
+
+
+
+
+
+.panel-button {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    padding: 20px 0;
+    padding-bottom: 0;
+}
+
+.panel-btn-send {
+
+}
+
+.panel-btn-other {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.panel-btn {
+    width: 100%;
+}
+
+
+.message-info-box {
+    height: 100px; 
+    width: 100%; 
+/*    background-color: orange; 
+    border: 10px solid green;*/
+}
+
+.message-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+/*    transform: translate(0%, -20%);*/
+    z-index: 100;
+    width: 100%;
+}
+
+@media only screen and (min-width: 640px) {
+}
+
+@media only screen and (min-width: 640px) {
+
+}
+
