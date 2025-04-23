@@ -1,3 +1,4 @@
+using DashHA.Client.Services;
 using DashHA.Components;
 using DashHA.Components.Account;
 using DashHA.Data;
@@ -22,6 +23,9 @@ builder.Services.AddSignalR();
 
 builder.Services.AddSingleton<IMqttService, MqttService>();
 builder.Services.AddSingleton<MqttToSignalRForwarder>();
+
+builder.Services.AddScoped<IMqttMessageService, MqttMessageService>();
+
 
 //builder.Services.AddDataProtection()
 //    .SetApplicationName("MyDashHA")
