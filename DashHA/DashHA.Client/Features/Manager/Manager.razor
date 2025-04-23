@@ -215,6 +215,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        //start signalR connection implement on MqttMessageService, not on server MqttMessageService
         await MqttMessageService.StartAsync();
 
 

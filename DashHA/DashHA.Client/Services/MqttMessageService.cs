@@ -23,10 +23,11 @@ namespace DashHA.Client.Services
             _logger = logger;
             _navigationManager = navigationManager;
 
+
         }
 
 
-        //feetch messages from server
+        //feetch messages from server - update Messages list
         public async Task FetchMessagesAsync()
         {
             if (_hubConnection == null)
@@ -40,6 +41,7 @@ namespace DashHA.Client.Services
         }
 
 
+        //start signalR connection
         public async Task StartAsync()
         {
             if (_hubConnection is not null) return;

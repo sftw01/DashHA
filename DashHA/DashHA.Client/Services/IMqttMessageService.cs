@@ -13,6 +13,8 @@ namespace DashHA.Client.Services
         Task<MqttStatusResponse> SubscribeAsync(string topic);
         Task<MqttStatusResponse> UnsubscribeAsync(string topic);
 
-        Task<List<MqttMessage>> GetMqttMessagesAsync();
+        Task<List<MqttMessage>> GetMqttMessagesAsync();   //storaged on MqttMessageService
+        Task FetchMessagesAsync();  //from mqttService to MqttMessageService/MqttMessageServiceServer
+
     }
 }
