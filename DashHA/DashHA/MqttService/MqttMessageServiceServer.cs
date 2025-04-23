@@ -50,9 +50,7 @@ namespace DashHA.MqttService
 
         public Task StartAsync()
         {
-            //start signalR connection - not used on serverSide 
-            _logger.LogWarning("StartAsync() is not used on server side.");
-            _logger.LogWarning(" =============================== !!!!! ============================================");
+            //start signalR connection - not used on serverSide  - StartAsync() is not used on server side
             return Task.CompletedTask;
         }
 
