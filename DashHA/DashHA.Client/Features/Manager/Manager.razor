@@ -154,9 +154,7 @@
                                     Pobieranie z serwera...
                                 </MudAlert>
                             </div>
-                        }
-
-                        @if (MqttMessageService.Messages is null || MqttMessageService.Messages.Count == 0)
+                        } else if (mqttMessages.Count == 0)
                         {
                             <div class="pa-2"
                             style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
