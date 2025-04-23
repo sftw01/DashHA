@@ -149,7 +149,7 @@
                         @if(mqttMessages is null)
                         {
                             <div class="pa-2"
-                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                            style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
                                 <MudAlert Severity="Severity.Warning" Variant="Variant.Filled">
                                     Pobieranie z serwera...
                                 </MudAlert>
@@ -231,7 +231,17 @@
         MqttMessageService.OnMessageReceived += OnMessageReceived;
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        mqttMessages = MqttMessageService.Messages;
+        StateHasChanged();
+    }
 
+    protected override async Task OnParametersSetAsync()
+    {
+        mqttMessages = MqttMessageService.Messages;
+        StateHasChanged();
+    }
 
     private void Timer1sEvent(object? state)
     {
