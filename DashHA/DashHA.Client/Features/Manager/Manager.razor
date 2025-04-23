@@ -25,21 +25,21 @@
                     <div class="panel-display">
                         <div>
                             <MudTextField @bind-Value="topic"
-                                          Variant="Variant.Outlined"
-                                          Adornment="Adornment.End"
-                                          AdornmentText="Topic"
-                                          AdornmentColor="Color.Info"
-                                          Class="mb-4"
-                                          Style="background-color: #3b3b3b; color: #ffb74d;" />
+                            Variant="Variant.Outlined"
+                            Adornment="Adornment.End"
+                            AdornmentText="Topic"
+                            AdornmentColor="Color.Info"
+                            Class="mb-4"
+                            Style="background-color: #3b3b3b; color: #ffb74d;" />
 
                             <MudTextField @bind-Value="message"
-                                          Variant="Variant.Outlined"
-                                          Adornment="Adornment.End"
-                                          AdornmentIcon="@Icons.Material.Filled.Topic"
-                                          AdornmentText="Message"
-                                          AdornmentColor="Color.Secondary"
-                                          Style="background-color: #3b3b3b; color: #eeeeee;"
-                                          @onclick="StopTimer" />
+                            Variant="Variant.Outlined"
+                            Adornment="Adornment.End"
+                            AdornmentIcon="@Icons.Material.Filled.Topic"
+                            AdornmentText="Message"
+                            AdornmentColor="Color.Secondary"
+                            Style="background-color: #3b3b3b; color: #eeeeee;"
+                            @onclick="StopTimer" />
                         </div>
 
                     </div>
@@ -47,12 +47,12 @@
                     <div class="panel-button" style="position: relative;">
                         <div class="panel-btn-send">
                             <MudButton Color="Color.Primary"
-                                       Variant="Variant.Filled"
-                                       StartIcon="@Icons.Material.Filled.Save"
-                                       IconColor="Color.Secondary"
-                                       Size="Size.Large"
-                                       OnClick="SendMessage"
-                                       Style="width: 100%">
+                            Variant="Variant.Filled"
+                            StartIcon="@Icons.Material.Filled.Save"
+                            IconColor="Color.Secondary"
+                            Size="Size.Large"
+                            OnClick="SendMessage"
+                            Style="width: 100%">
                                 Send
                             </MudButton>
                         </div>
@@ -60,47 +60,47 @@
                         <div class="panel-btn-other">
                             <div class="panel-btn">
                                 <MudButton Color="Color.Success"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.CastConnected"
-                                           IconColor="Color.Secondary"
-                                           Size="Size.Medium"
-                                           OnClick="Connect"
-                                           Style="width: 100%">
+                                Variant="Variant.Filled"
+                                StartIcon="@Icons.Material.Filled.CastConnected"
+                                IconColor="Color.Secondary"
+                                Size="Size.Medium"
+                                OnClick="Connect"
+                                Style="width: 100%">
                                     Connect
                                 </MudButton>
                             </div>
                             <div class="panel-btn">
                                 <MudButton Color="Color.Warning"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.Remove"
-                                           IconColor="Color.Dark"
-                                           Size="Size.Medium"
-                                           OnClick="Disconnect"
-                                           Style="width: 100%">
+                                Variant="Variant.Filled"
+                                StartIcon="@Icons.Material.Filled.Remove"
+                                IconColor="Color.Dark"
+                                Size="Size.Medium"
+                                OnClick="Disconnect"
+                                Style="width: 100%">
 
                                     Disconnect
                                 </MudButton>
                             </div>
                             <div class="panel-btn">
                                 <MudButton Color="Color.Info"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.Speaker"
-                                           IconColor="Color.Dark"
-                                           Size="Size.Medium"
-                                           OnClick="SubscribeTopic"
-                                           Style="width: 100%">
+                                Variant="Variant.Filled"
+                                StartIcon="@Icons.Material.Filled.Speaker"
+                                IconColor="Color.Dark"
+                                Size="Size.Medium"
+                                OnClick="SubscribeTopic"
+                                Style="width: 100%">
 
                                     Subscribe
                                 </MudButton>
                             </div>
                             <div class="panel-btn">
                                 <MudButton Color="Color.Error"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.Speaker"
-                                           IconColor="Color.Dark"
-                                           Size="Size.Medium"
-                                           OnClick="UnsubscribeTopic"
-                                           Style="width: 100%">
+                                Variant="Variant.Filled"
+                                StartIcon="@Icons.Material.Filled.Speaker"
+                                IconColor="Color.Dark"
+                                Size="Size.Medium"
+                                OnClick="UnsubscribeTopic"
+                                Style="width: 100%">
 
                                     Unsubscribe
                                 </MudButton>
@@ -113,11 +113,11 @@
                                     <MudPaper Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
 
                                         <MudText Class="text-sm sm:text-base md:text-lg"
-                                                 Typo="Typo.h5"
-                                                 Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                                        Typo="Typo.h5"
+                                        Color="@(infoMessage.Success ? Color.Success : Color.Error)">
                                             <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
-                                                     Color="@(infoMessage.Success ? Color.Success : Color.Error)"
-                                                     Size="Size.Medium" />
+                                            Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                                            Size="Size.Medium" />
 
                                             @infoMessage.Message
 
@@ -142,15 +142,24 @@
             <MudPaper Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
                 <div class="panel-message" style="position: relative;">
                     <MudPaper Elevation="3"
-                              Class="py-4 px-2 my-2 mt-1 rounded-lg"
-                              Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                    Class="py-4 px-2 my-2 mt-1 rounded-lg"
+                    Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
-        
+
+                        @if(mqttMessages is null)
+                        {
+                            <div class="pa-2"
+                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                                <MudAlert Severity="Severity.Warning" Variant="Variant.Filled">
+                                    Pobieranie z serwera...
+                                </MudAlert>
+                            </div>
+                        }
 
                         @if (MqttMessageService.Messages is null || MqttMessageService.Messages.Count == 0)
                         {
                             <div class="pa-2"
-                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                            style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
                                 <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
                                     Message List Empty
                                 </MudAlert>
@@ -202,11 +211,12 @@
 
     private InfoMessage infoMessage = new InfoMessage(false, string.Empty);
 
+
     public string message { get; set; } = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
     public string topic { get; set; } = "sensor1";
 
     private CancellationTokenSource? _cts;
-
+    private List<MqttMessage>? mqttMessages = null;
 
     protected override void OnInitialized()
     {
@@ -218,7 +228,7 @@
         //start signalR connection implement on MqttMessageService, not on server MqttMessageService
         await MqttMessageService.StartAsync();
 
-
+        mqttMessages = MqttMessageService.Messages;
 
         MqttMessageService.OnMessageReceived += OnMessageReceived;
     }
