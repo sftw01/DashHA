@@ -4,6 +4,7 @@ using DashHA.Data;
 using DashHA.Hubs;
 using DashHA.MqttService;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MudBlazor.Services;
@@ -25,6 +26,10 @@ builder.Services.AddSingleton<MqttToSignalRForwarder>();
 //builder.Services.AddDataProtection()
 //    .SetApplicationName("MyDashHA")
 //    .PersistKeysToFileSystem(new DirectoryInfo("/var/keys/dashha"));
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"/var/aspnet-keys"))
+    .SetApplicationName("DashHA"); // wa¿ne przy wielu aplikacjach
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
