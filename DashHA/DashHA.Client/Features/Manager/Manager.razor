@@ -145,9 +145,17 @@
                               Class="py-4 px-2 my-2 mt-1 rounded-lg"
                               Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
-        
 
-                        @if (MqttMessageService.Messages is null || MqttMessageService.Messages.Count == 0)
+                        @if (mqttMessages is null)
+                        {
+                            <div class="pa-2"
+                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                                <MudAlert Severity="Severity.Warning" Variant="Variant.Filled">
+                                    Pobieranie z serwera...
+                                </MudAlert>
+                            </div>
+                        }
+                        else if (mqttMessages.Count == 0)
                         {
                             <div class="pa-2"
                                  style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
@@ -202,11 +210,12 @@
 
     private InfoMessage infoMessage = new InfoMessage(false, string.Empty);
 
+
     public string message { get; set; } = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
     public string topic { get; set; } = "sensor1";
 
     private CancellationTokenSource? _cts;
-
+    private List<MqttMessage>? mqttMessages = null;
 
     protected override void OnInitialized()
     {
@@ -218,7 +227,7 @@
         //start signalR connection implement on MqttMessageService, not on server MqttMessageService
         await MqttMessageService.StartAsync();
 
-
+        mqttMessages = MqttMessageService.Messages;
 
         MqttMessageService.OnMessageReceived += OnMessageReceived;
     }

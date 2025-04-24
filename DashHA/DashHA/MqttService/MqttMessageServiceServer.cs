@@ -48,12 +48,13 @@ namespace DashHA.MqttService
         public Task<MqttStatusResponse> SendMessageAsync(string message) =>
                        _mqttService.Publish_Application_Message(message);
 
-        public Task StartAsync()
+        public async Task StartAsync()
         {
             //start signalR connection - not used on serverSide 
-            _logger.LogWarning("StartAsync() is not used on server side.");
-            _logger.LogWarning(" =============================== !!!!! ============================================");
-            return Task.CompletedTask;
+
+            //when connection is established, fetch messages
+            //fetch messages from MqttService on server - lifetime of the app and assign to Messages on MqttMessageService on client 
+            await FetchMessagesAsync();
         }
 
         public Task<MqttStatusResponse> SubscribeAsync(string topic) =>
