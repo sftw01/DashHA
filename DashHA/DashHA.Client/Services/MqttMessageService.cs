@@ -35,9 +35,10 @@ namespace DashHA.Client.Services
                 _logger.LogWarning("Messages is null. Upewnij się, że FetchMessagesAsync() zostało wywołane po StartAsync() i przed ConnectAsync().");
                 return;
             }
-            _logger.LogInformation("fetch messages");
 
             Messages = await _hubConnection.InvokeAsync<List<MqttMessage>>("GetMessages");
+            _logger.LogInformation("fetch messages");
+
         }
 
 
@@ -128,6 +129,17 @@ namespace DashHA.Client.Services
 
             return await _hubConnection.InvokeAsync<List<MqttMessage>>("GetMessages");
 
+        }
+
+        public Task ClearMessageList()
+        {
+            Messages.Clear();
+            return Task.CompletedTask;
+        }
+
+        public Task<List<MqttMessage>> GetMqttMessagesListAsync()
+        {
+            return Task.FromResult(Messages);
         }
     }
 }

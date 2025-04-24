@@ -69,6 +69,16 @@ namespace DashHA.MqttService
             return Task.CompletedTask;
         }
 
+        public Task ClearMessageList()
+        {
+            Messages = new List<MqttMessage>();
+            return Task.CompletedTask;
+        }
+
+        public Task<List<MqttMessage>> GetMqttMessagesListAsync()
+        {
+            return Task.FromResult(Messages);
+        }
     }
 }
 

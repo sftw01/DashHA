@@ -15,6 +15,8 @@ namespace DashHA.Client.Services
 
         Task<List<MqttMessage>> GetMqttMessagesAsync();   //storaged on MqttMessageService
         Task FetchMessagesAsync();  //from mqttService to MqttMessageService/MqttMessageServiceServer
+        Task ClearMessageList(); //clear message list on MqttMessageService
+        Task<List<MqttMessage>> GetMqttMessagesListAsync(); //get message list from MqttMessageServiceServer
 
     }
 }
