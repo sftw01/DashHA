@@ -3,8 +3,8 @@
 
 .panel {
     padding: 30px;
+    padding-top: 0;
     min-height: 55vh;
-
 }
 
 .panel-message {
