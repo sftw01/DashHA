@@ -1,0 +1,132 @@
+﻿@page "/aukcje"
+
+
+<div class="min-h-screen bg-gray-50 font-sans text-gray-800">
+
+    <!-- HERO -->
+    <section class="relative bg-gradient-to-r from-violet-500 to-indigo-600 text-white py-24 px-6 text-center">
+        <h1 class="text-5xl font-extrabold mb-4">Licytuj. Wygrywaj. Płać BLIKIEM.</h1>
+        <p class="text-lg max-w-2xl mx-auto">Nowoczesna platforma aukcyjna połączona z Twoim Facebookiem. Przedmioty, które chcesz – bezpiecznie i błyskawicznie.</p>
+        <a href="/aukcje" class="mt-8 inline-block bg-white text-indigo-700 px-6 py-3 rounded-full font-semibold shadow hover:bg-gray-100 transition">
+            Rozpocznij licytację
+        </a>
+
+        <div class="absolute bottom-0 left-0 right-0 h-12 bg-white rounded-t-3xl mt-10"></div>
+    </section>
+
+    <!-- SEKJA Z AUKCJAMI -->
+    <section class="bg-white pt-16 pb-24 px-6 relative z-10">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">🔥 Najnowsze aukcje</h2>
+            <p class="text-gray-500 mt-2">Codziennie nowe okazje – tylko tutaj</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            @foreach (var item in items)
+            {
+                <div class="bg-gray-50 p-5 rounded-2xl shadow hover:shadow-xl transition">
+                    <img src="@item.ImageUrl" class="w-full h-48 object-cover rounded-xl mb-4" />
+                    <h3 class="font-bold text-xl">@item.Title</h3>
+                    <p class="text-sm text-gray-600">@item.Description</p>
+                    <div class="mt-4 text-indigo-600 font-bold text-lg">@item.Price zł</div>
+                    <a href="/aukcje" class="mt-4 block w-full text-center bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700">Licytuj</a>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- STATYSTYKI -->
+    <section class="bg-gradient-to-tr from-indigo-600 to-violet-500 text-white py-20">
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8 text-center">
+            <div>
+                <div class="text-4xl font-bold">150+</div>
+                <div class="text-sm mt-2">Przedmiotów sprzedanych</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold">95%</div>
+                <div class="text-sm mt-2">Zadowolonych licytantów</div>
+            </div>
+            <div>
+                <div class="text-4xl font-bold">6s</div>
+                <div class="text-sm mt-2">Średni czas płatności BLIK</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DLACZEGO MY -->
+    <section class="bg-white py-20">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold">Dlaczego warto z nami?</h2>
+        </div>
+        <div class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 px-6">
+            @foreach (var feature in features)
+            {
+                <div class="text-center p-6 rounded-xl shadow-md bg-gray-50 hover:bg-gray-100 transition">
+                    <div class="mb-4 text-indigo-500">
+                        @feature.Icon
+                    </div>
+                    <h3 class="font-semibold text-xl mb-2">@feature.Title</h3>
+                    <p class="text-sm text-gray-600">@feature.Description</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-indigo-700 text-white py-16 text-center">
+        <h2 class="text-3xl font-bold mb-4">Nie przegap żadnej licytacji!</h2>
+        <p class="mb-6">Obserwuj nas na Facebooku i licytuj bez rejestracji.</p>
+        <a href="/aukcje" class="bg-white text-indigo-700 font-bold px-6 py-3 rounded-xl shadow hover:bg-gray-100 transition">Zaczynam!</a>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400 text-center py-10">
+        <p class="text-sm">&copy; @DateTime.Now.Year Licytacje FB | Konrad</p>
+        <p class="text-xs mt-1">Blazor WebApp - powered by .NET 9</p>
+    </footer>
+</div>
+
+@code {
+    private List<AuctionItem> items = new()
+    {
+        new AuctionItem("Zegarek sportowy", "Stan idealny", "https://prod-api.mediaexpert.pl/api/images/gallery_500_500/thumbnails/images/54/5497862/Zegarek-sportowy-GARMIN-Fenix-7-Pro-Solar-Edition-Szaro-czarny-skos.jpg", 50),
+        new AuctionItem("Słuchawki bezprzewodowe", "Nowe, z pudełkiem", "https://ecsmedia.pl/c/ltc-symphony-bluetooth-sluchawki-bezprzewodowe-nauszne-z-mikrofonem-fm-sd-aux-zlote-b-iext120856600.jpg", 80),
+        new AuctionItem("Plecak turystyczny", "Pojemność 35L", "https://storage.waw.cloud.ovh.net/v1/AUTH_7e87ec8149754c4da351ad48d83778c7/mojebambinostorage/media/e3/cb/9b/1729473083/gra-planszowa-slimak-czterolistna-koniczynka-108011-w.webp", 70),
+    };
+
+    private List<Feature> features = new()
+    {
+        new Feature("Prostota", "Bez konta, bez logowania, po prostu licytuj", @<svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"></path></svg>),
+        new Feature("Blik", "Błyskawiczna płatność 6-cyfrowym kodem", @<svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 12H4"></path><path d="M14 6l6 6-6 6"></path></svg>),
+        new Feature("Zasięg", "Wszystko zintegrowane z Twoim Facebookiem", @<svg class="w-10 h-10 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>)
+    };
+
+    public class AuctionItem
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public int Price { get; set; }
+
+        public AuctionItem(string title, string description, string imageUrl, int price)
+        {
+            Title = title;
+            Description = description;
+            ImageUrl = imageUrl;
+            Price = price;
+        }
+    }
+
+    public class Feature
+    {
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public RenderFragment Icon { get; set; }
+
+        public Feature(string title, string description, RenderFragment icon)
+        {
+            Title = title;
+            Description = description;
+            Icon = icon;
+        }
+    }
+}
