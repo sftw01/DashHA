@@ -1,0 +1,103 @@
+﻿@page "/gra"
+
+<div class="min-h-screen bg-yellow-50 py-12 px-4 font-sans text-gray-800">
+    <div class="max-w-5xl mx-auto bg-white rounded-2xl shadow-xl p-8 grid md:grid-cols-2 gap-10">
+        <!-- ZDJĘCIE -->
+        <div>
+            <img src="https://storage.waw.cloud.ovh.net/v1/AUTH_7e87ec8149754c4da351ad48d83778c7/mojebambinostorage/media/e3/cb/9b/1729473083/gra-planszowa-slimak-czterolistna-koniczynka-108011-w.webp"
+                 alt="Gra planszowa"
+                 class="rounded-xl shadow-md w-full object-cover max-h-[500px]" />
+        </div>
+
+        <!-- INFO -->
+        <div class="flex flex-col justify-between">
+            <div>
+                <h1 class="text-3xl font-extrabold mb-2">🎲 Gra planszowa: Ślimak i czterolistna koniczynka</h1>
+                <p class="text-gray-700 mb-6">Wesoła i edukacyjna gra dla najmłodszych! Zbieraj koniczynki, unikaj ślimaków i baw się z całą rodziną. Kolorowa plansza, proste zasady i uśmiechy gwarantowane 😊</p>
+
+                <div class="text-4xl font-bold text-pink-600">@currentPrice zł</div>
+                <div class="text-sm text-gray-500 mt-1">Ostatnie przebicie: @lastBidAgo</div>
+                <div class="text-sm text-gray-500">Licytujących: @bidders</div>
+                <div class="text-sm text-red-500 font-semibold mt-2">⏰ Czas do końca: @countdown</div>
+
+                <!-- Cechy gry -->
+                <div class="mt-6 grid grid-cols-2 gap-3 text-sm text-gray-700">
+                    <div class="flex items-center gap-2"><span class="text-pink-500 text-lg">👧</span> Wiek: 3+</div>
+                    <div class="flex items-center gap-2"><span class="text-pink-500 text-lg">👨‍👩‍👧‍👦</span> Gracze: 2–4</div>
+                    <div class="flex items-center gap-2"><span class="text-pink-500 text-lg">⏱</span> Czas gry: ~20 min</div>
+                    <div class="flex items-center gap-2"><span class="text-pink-500 text-lg">📦</span> Stan: Nowa w folii</div>
+                </div>
+            </div>
+
+            <!-- LICYTACJA -->
+            <div class="mt-8">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Twoja oferta (zł):</label>
+                <input @bind="bidAmount" type="number" class="w-full px-4 py-2 border rounded-lg shadow-sm text-lg focus:ring focus:ring-pink-300" />
+
+                <button @onclick="PlaceBid"
+                        class="mt-4 w-full bg-pink-600 text-white py-3 rounded-lg font-semibold hover:bg-pink-700 transition">
+                    Przebij ofertę 🎯
+                </button>
+
+                @if (bidMessage != null)
+                {
+                    <div class="mt-4 text-sm text-green-600">@bidMessage</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int currentPrice = 30;
+    private int bidAmount;
+    private string? bidMessage;
+    private string lastBidAgo = "2 min temu";
+    private int bidders = 89;
+    private string countdown = "00:02:48";
+
+    private System.Timers.Timer? timer;
+    private TimeSpan remaining = TimeSpan.FromMinutes(2).Add(TimeSpan.FromSeconds(48));
+
+    protected override void OnInitialized()
+    {
+        timer = new System.Timers.Timer(1000);
+        timer.Elapsed += UpdateCountdown;
+        timer.Start();
+    }
+
+    private void UpdateCountdown(object? sender, System.Timers.ElapsedEventArgs e)
+    {
+        if (remaining.TotalSeconds > 0)
+        {
+            remaining = remaining.Subtract(TimeSpan.FromSeconds(1));
+            countdown = remaining.ToString(@"hh\:mm\:ss");
+            InvokeAsync(StateHasChanged);
+        }
+        else
+        {
+            timer?.Stop();
+            countdown = "Zakończona";
+        }
+    }
+
+    private void PlaceBid()
+    {
+        if (bidAmount > currentPrice)
+        {
+            currentPrice = bidAmount;
+            lastBidAgo = "przed chwilą";
+            bidders += 1;
+            bidMessage = $"✅ Super! Twoja oferta {bidAmount} zł została przyjęta!";
+        }
+        else
+        {
+            bidMessage = "❌ Twoja oferta musi być wyższa niż obecna cena!";
+        }
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+}
