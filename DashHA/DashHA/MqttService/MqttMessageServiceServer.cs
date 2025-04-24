@@ -71,7 +71,7 @@ namespace DashHA.MqttService
 
         public Task ClearMessageList()
         {
-            Messages = new List<MqttMessage>();
+            Messages.Clear();
             return Task.CompletedTask;
         }
 

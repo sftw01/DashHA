@@ -30,14 +30,14 @@
                     <div style="position: relative; margin: 10px 0;">
                         @if (isClient)
                         {
-                            <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Info" />
-                            <MudText Color="Color.Info" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">Client</MudText>
+                            <MudIcon Icon="@Icons.Material.Filled.Computer" Color="Color.Info" />
+                            <MudText Color="Color.Success" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">Client</MudText>
 
                         }
                         else
                         {
                             <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Success" />
-                            <MudText Color="Color.Success" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">Server</MudText>
+                            <MudText Color="Color.Info" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">Server</MudText>
                         }
                     </div>
                     <div class="panel-display">
@@ -173,24 +173,10 @@
                                 </MudAlert>
                             </div>
                         }
-                        else if (mqttMessages.Count == 0)
-                        {
-                            <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
-                                <MudButton @onclick="OnClickFetchMessage" Color="Color.Success" Variant="Variant.Filled" Style="min-width: 30px; width: 30px; height: 30px;">
-                                    <MudIcon Icon="@Icons.Material.Filled.Download" />
-                                </MudButton>
-                            </div>
 
-                            <div class="pa-2"
-                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
-                                <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
-                                    Message List Empty
-                                </MudAlert>
-                            </div>
-                        }
-                        else
+                        else if (mqttMessages.Count > 0) 
                         {
-                            <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
+                            <div style="position: sticky; top: 0; display: flex; justify-content: flex-end; gap: 10px; background-color: transparent; z-index: 1; padding: 10px;">
                                 <MudButton @onclick="OnClickFetchMessage" Color="Color.Success" Variant="Variant.Filled" Style="min-width: 30px; width: 30px; height: 30px;">
                                     <MudIcon Icon="@Icons.Material.Filled.Download" />
                                 </MudButton>
@@ -200,8 +186,7 @@
                                 </MudButton>
                             </div>
 
-
-                            <ul>
+                            <ul style="margin-top: -50px;">
                                 @foreach (var message in MqttMessageService.Messages)
                                 {
                                     <li>
@@ -217,15 +202,29 @@
                                 }
                             </ul>
                         }
+                        else if (mqttMessages.Count == 0)
+                        {
+                            <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
+                                <MudButton @onclick="OnClickFetchMessage" Color="Color.Success" Variant="Variant.Filled" Style="min-width: 30px; width: 30px; height: 30px;">
+                                    <MudIcon Icon="@Icons.Material.Filled.Download" />
+                                </MudButton>
+                            </div>
+
+                            <div class="pa-2"
+                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                                <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
+                                    Message List Empty
+                                </MudAlert>
+                            </div>
+                        }
 
 
                     </MudPaper>
+                    <div style="height: 20vh;">
+                    </div>
+
                 </div>
             </MudPaper>
-
-            <a class="btn" href="/counter">counter</a>
-
-
         </div>
 
     </section>
@@ -266,7 +265,7 @@
         {
             try
             {
-                // jeżeli to się nie wywali, jesteś po stronie klienta (czyli WASM lub Interaktywność w Server)
+                // if not exception then isClient
                 isClient = true;
             }
             catch
@@ -391,6 +390,7 @@
 
     private void OnClickDelete()
     {
+        Console.WriteLine($"mqttMessages.Count = {mqttMessages.Count} ");
         MqttMessageService.ClearMessageList();
         StateHasChanged();
     }
