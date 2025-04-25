@@ -1,0 +1,75 @@
+﻿body {
+
+}
+/* 🔹 TopBar Styles */
+.topbar {
+    background: linear-gradient(to right, #312e81, #6b21a8, #be185d);
+    background-color: #111111; /* fallback */
+    color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 8vh;
+    z-index: 100;
+}
+
+.topbar-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topbar-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+    .topbar-logo:hover {
+        color: #facc15; /* żółty hover */
+    }
+
+.topbar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.button-logout, .button-login {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+    .button-logout:hover, .button-login:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+.button-register {
+    background-color: #facc15;
+    color: #312e81;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+}
+
+    .button-register:hover {
+        background-color: #fbbf24;
+    }

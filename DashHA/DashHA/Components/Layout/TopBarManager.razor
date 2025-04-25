@@ -1,0 +1,18 @@
+﻿
+
+@if (DarkMode)
+{
+    <TopBarMudBlazor/>
+}
+else
+{
+    <TopBar />
+}
+
+
+@code {
+    [Parameter]
+    public bool DarkMode { get; set; } = false;
+
+
+}
