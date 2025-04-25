@@ -20,12 +20,46 @@
 
 @* @attribute [Authorize] *@
 
+@* <div class="message-info-box"> *@
+
+@* </div> *@
+
+
+
+
 <div class="manager">
+
     <section class="bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white min-h-[calc(100vh-8vh)] md:min-h-[calc(100vh-8vh)] ">
+
+        
         <div class="max-w-7xl " style="margin: 0 auto;">
 
             <MudPaper Outlined="true" Square="true" class="pa-4" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+                <div class="message-info">
+                    @if (!string.IsNullOrEmpty(infoMessage.Message))
+                    {
+                        <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
 
+                            <MudText Class="text-sm sm:text-base md:text-lg"
+                                     Typo="Typo.h5"
+                                     Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                                <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
+                                         Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                                         Size="Size.Medium" />
+
+                                @infoMessage.Message
+
+                            </MudText>
+                        </MudPaper>
+
+                    }
+                    else
+                    {
+
+                        @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
+
+                    }
+                </div>
                 <MudPaper Elevation="3"
                           Class="py-2 px-4 my-2 mt-1 rounded-lg"
                           Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
@@ -149,35 +183,7 @@
                                     </MudButton>
                                 </div>
                             </div>
-                            <div class="message-info-box">
-                                <div class="message-info">
-                                    @if (!string.IsNullOrEmpty(infoMessage.Message))
-                                    {
-                                        <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
-
-                                            <MudText Class="text-sm sm:text-base md:text-lg"
-                                                     Typo="Typo.h5"
-                                                     Color="@(infoMessage.Success ? Color.Success : Color.Error)">
-                                                <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
-                                                         Color="@(infoMessage.Success ? Color.Success : Color.Error)"
-                                                         Size="Size.Medium" />
-
-                                                @infoMessage.Message
-
-                                            </MudText>
-                                        </MudPaper>
-
-                                    }
-                                    else
-                                    {
-
-                                        @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
-
-                                    }
-                                </div>
-                            </div>
-
-
+                            
                         </div>
                     </div>
                 </MudPaper>
