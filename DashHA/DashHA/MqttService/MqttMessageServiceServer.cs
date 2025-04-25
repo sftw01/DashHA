@@ -29,8 +29,6 @@ namespace DashHA.MqttService
         private async Task HandleMessageReceived(MqttMessage message)
         {
             _logger.LogInformation($"Message received: {message.Topic} - {message.Payload}");
-            // Add the message to the local Messages list
-            Messages.Add(message);
             // Invoke the OnMessageReceived event if there are any subscribers
             OnMessageReceived?.Invoke(message);
         }
