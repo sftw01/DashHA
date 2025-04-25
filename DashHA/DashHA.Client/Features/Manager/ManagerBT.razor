@@ -1,0 +1,268 @@
+﻿@page "/managerbt"
+@using DashHA.Client.Services
+@using DashHA.Shared
+@using System.Runtime.InteropServices
+
+@rendermode @(new InteractiveAutoRenderMode(false))
+@inject IJSRuntime JSRuntime
+@inject IMqttMessageService MqttMessageService
+@inject NavigationManager NavigationManager
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mx-auto p-4 text-white">
+    <MudPaper Elevation="4" Class="bg-[#2e2e2e] p-6 rounded-xl">
+        <MudStack Row Class="justify-between items-center mb-4">
+            <MudStack Row Class="items-center gap-2">
+                <MudIcon Icon="@Icons.Material.Filled.Computer" Color="Color.Info" />
+                <MudText Typo="Typo.subtitle1" Color="Color.Success">@platform</MudText>
+            </MudStack>
+            <MudStack Row Class="items-center gap-2">
+                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Success" />
+                <MudText Typo="Typo.subtitle1" Color="Color.Info">@(OperatingSystem.IsBrowser() ? "SignalR" : "WebSocket")</MudText>
+            </MudStack>
+        </MudStack>
+
+        <MudStack Class="gap-4">
+            <MudTextField @bind-Value="topic" Label="Topic" Adornment="Adornment.End" AdornmentText="Topic"
+                          Variant="Variant.Outlined" Color="Color.Info" Style="background-color: #3b3b3b; color: #ffb74d;" />
+
+            <MudTextField @bind-Value="message" Label="Message" Adornment="Adornment.End" AdornmentIcon="@Icons.Material.Filled.Topic"
+                          Variant="Variant.Outlined" Color="Color.Secondary" Style="background-color: #3b3b3b; color: #eeeeee;"
+                          @onclick="StopTimer" />
+
+            <MudStack Row Class="gap-2">
+                <MudButton OnClick="SendMessage" Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Save" FullWidth>
+                    Send
+                </MudButton>
+                <MudButton OnClick="Connect" Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.CastConnected" FullWidth>
+                    Connect
+                </MudButton>
+                <MudButton OnClick="Disconnect" Variant="Variant.Filled" Color="Color.Warning" StartIcon="@Icons.Material.Filled.Remove" FullWidth>
+                    Disconnect
+                </MudButton>
+            </MudStack>
+
+            <MudStack Row Class="gap-2">
+                <MudButton OnClick="SubscribeTopic" Variant="Variant.Filled" Color="Color.Info" StartIcon="@Icons.Material.Filled.Speaker" FullWidth>
+                    Subscribe
+                </MudButton>
+                <MudButton OnClick="UnsubscribeTopic" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Speaker" FullWidth>
+                    Unsubscribe
+                </MudButton>
+            </MudStack>
+
+            @if (!string.IsNullOrEmpty(infoMessage.Message))
+            {
+                <MudAlert Severity="@(infoMessage.Success ? Severity.Success : Severity.Error)" Variant="Variant.Filled">
+                    @infoMessage.Message
+                </MudAlert>
+            }
+        </MudStack>
+    </MudPaper>
+
+    <MudPaper Elevation="4" Class="bg-[#2e2e2e] p-6 rounded-xl mt-6">
+        @if (mqttMessages == null)
+        {
+            <MudAlert Severity="Severity.Warning" Variant="Variant.Filled">
+                Pobieranie z serwera...
+            </MudAlert>
+        }
+        else if (mqttMessages.Count == 0)
+        {
+            <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">
+                Message List Empty
+            </MudAlert>
+        }
+        else
+        {
+            <MudStack Row Class="justify-end gap-2 mb-2">
+                <MudButton OnClick="OnClickFetchMessage" Variant="Variant.Filled" Color="Color.Success" StartIcon="@Icons.Material.Filled.Download" />
+                <MudButton OnClick="OnClickDelete" Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" />
+            </MudStack>
+
+
+        }
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private bool isClient = false;
+    private int counter = 0;
+    private Timer? timer;
+
+    private InfoMessage infoMessage = new InfoMessage(false, string.Empty);
+    private string platform;
+
+
+    public string message { get; set; } = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
+    public string topic { get; set; } = "sensor1";
+
+    private CancellationTokenSource? _cts;
+    private List<MqttMessage>? mqttMessages = null;
+
+    protected override void OnInitialized()
+    {
+        platform = OperatingSystem.IsBrowser() ? "WASM Render" : "Server Render";
+
+        timer = new Timer(Timer1sEvent, null, 0, 1000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //start signalR connection implement on MqttMessageService, not on server MqttMessageService
+        await MqttMessageService.StartAsync();
+
+        mqttMessages = await MqttMessageService.GetMqttMessagesListAsync();
+
+        MqttMessageService.OnMessageReceived += OnMessageReceived;
+    }
+
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+                // if not exception then isClient
+                isClient = true;
+            }
+            catch
+            {
+                isClient = false;
+            }
+        }
+    }
+
+
+    private void Timer1sEvent(object? state)
+    {
+        message = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
+        InvokeAsync(StateHasChanged);
+    }
+
+    private async Task SendMessage()
+    {
+        counter++;
+        string showStatusMessage = "Wysyłanie wiadomości... ";
+        var tempMessage = message;
+        //set info message is sending
+        message = showStatusMessage;
+        StateHasChanged();
+        var response = await MqttMessageService.SendMessageAsync(tempMessage);
+        //after that, restore the original message and count time
+        StartTimer();
+        DisplayResponseMessage(response);
+    }
+
+    private async Task Connect()
+    {
+        var response = await MqttMessageService.ConnectAsync();
+        DisplayResponseMessage(response);
+    }
+
+    private async Task Disconnect()
+    {
+        var response = await MqttMessageService.DisconnectAsync();
+        DisplayResponseMessage(response);
+    }
+
+    private async Task SubscribeTopic()
+    {
+        var response = await MqttMessageService.SubscribeAsync(topic);
+        DisplayResponseMessage(response);
+    }
+
+    private async Task UnsubscribeTopic()
+    {
+        var response = await MqttMessageService.UnsubscribeAsync(topic);
+        DisplayResponseMessage(response);
+    }
+
+    private void SetInfoMessage(bool success, string message)
+    {
+        //cancel the previous timer if it exists
+        _cts?.Cancel();
+        _cts = new CancellationTokenSource();
+
+        infoMessage.Message = message;
+        infoMessage.Success = success;
+        StateHasChanged();
+
+        // set a new timer to clear the message after 5 seconds
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(5000, _cts.Token);
+                ClearInfoMessage(message);
+            }
+            catch (TaskCanceledException)
+            {
+                // client canceled the task, do nothing
+            }
+        });
+    }
+
+    private void ClearInfoMessage(string message)
+    {
+        // check if the message is the same as the one we want to clear
+        if (infoMessage.Message == message)
+        {
+            infoMessage.Message = string.Empty;
+            StateHasChanged();
+        }
+    }
+
+    public void DisplayResponseMessage(MqttStatusResponse response)
+    {
+        if (response.Success)
+        {
+            SetInfoMessage(response.Success, response.MessageList.FirstOrDefault() ?? "Unknown info");
+        }
+        else
+        {
+            SetInfoMessage(response.Success, response.MessageList.FirstOrDefault() ?? "Unknown error");
+        }
+    }
+
+    private void OnMessageReceived(MqttMessage message)
+    {
+        //only update the UI when OnMessageReceived is called - not fetch data, all is stored in MqttMessageService on client
+        //all messages are storaged in MqttService on server - lifetime
+        Console.WriteLine($"Received message: {message.Topic} - {message.Payload}");
+        StateHasChanged();
+    }
+
+    private void StopTimer()
+    {
+        //stop timer
+        timer?.Change(Timeout.Infinite, Timeout.Infinite);
+        //set message to original
+        message = string.Empty;
+    }
+
+    private void StartTimer()
+    {
+        timer?.Change(0, 1000);
+    }
+
+    private void OnClickDelete()
+    {
+        Console.WriteLine($"mqttMessages.Count = {mqttMessages.Count} ");
+        MqttMessageService.ClearMessageList();
+        StateHasChanged();
+    }
+
+    private async Task OnClickFetchMessage()
+    {
+
+        //Fetch messages from MqttService to MqttMessageService or MqttMessageServiceServer
+        await MqttMessageService.FetchMessagesAsync();
+        StateHasChanged();
+
+    }
+}
+
+
+
+

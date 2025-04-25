@@ -24,160 +24,167 @@
     <section class="bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white min-h-[calc(100vh-8vh)] md:min-h-[calc(100vh-8vh)] ">
         <div class="max-w-7xl " style="margin: 0 auto;">
 
-            <MudPaper Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+            <MudPaper Outlined="true" Square="true" class="pa-4" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
 
-
-                <div class="panel">
-                    <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 5px 10px;">
-                        <div style="position: relative; margin: 10px 0;">
-                            @if (isClient)
-                            {
-                                <MudIcon Icon="@Icons.Material.Filled.Computer" Color="Color.Info" />
-                                <MudText Color="Color.Success" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">@platform</MudText>
-
-                            }
-                            else
-                            {
-                                <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Success" />
-                                <MudText Color="Color.Info" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">@platform</MudText>
-                            }
-                        </div>
-
-                        <div style="position: relative; margin: 10px 0;">
-                            @if (!OperatingSystem.IsBrowser())
-                            {
-                                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Info" />
-                                <MudText Color="Color.Warning" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">WebSocket</MudText>
-
-                            }
-                            else
-                            {
-                                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Success" />
-                                <MudText Color="Color.Success" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">SignalR</MudText>
-                            }
-                        </div>
-                    </div>
-                    
-
-
-                    <div class="panel-display">
-                        <div>
-                            <MudTextField @bind-Value="topic"
-                                          Variant="Variant.Outlined"
-                                          Adornment="Adornment.End"
-                                          AdornmentText="Topic"
-                                          AdornmentColor="Color.Info"
-                                          Class="mb-4"
-                                          Style="background-color: #3b3b3b; color: #ffb74d;" />
-
-                            <MudTextField @bind-Value="message"
-                                          Variant="Variant.Outlined"
-                                          Adornment="Adornment.End"
-                                          AdornmentIcon="@Icons.Material.Filled.Topic"
-                                          AdornmentText="Message"
-                                          AdornmentColor="Color.Secondary"
-                                          Style="background-color: #3b3b3b; color: #eeeeee;"
-                                          @onclick="StopTimer" />
-                        </div>
-
-                    </div>
-
-                    <div class="panel-button" style="position: relative;">
-                        <div class="panel-btn-send">
-                            <MudButton Color="Color.Primary"
-                                       Variant="Variant.Filled"
-                                       StartIcon="@Icons.Material.Filled.Save"
-                                       IconColor="Color.Secondary"
-                                       Size="Size.Large"
-                                       OnClick="SendMessage"
-                                       Style="width: 100%">
-                                Send
-                            </MudButton>
-                        </div>
-
-                        <div class="panel-btn-other">
-                            <div class="panel-btn">
-                                <MudButton Color="Color.Success"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.CastConnected"
-                                           IconColor="Color.Secondary"
-                                           Size="Size.Medium"
-                                           OnClick="Connect"
-                                           Style="width: 100%">
-                                    Connect
-                                </MudButton>
-                            </div>
-                            <div class="panel-btn">
-                                <MudButton Color="Color.Warning"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.Remove"
-                                           IconColor="Color.Dark"
-                                           Size="Size.Medium"
-                                           OnClick="Disconnect"
-                                           Style="width: 100%">
-
-                                    Disconnect
-                                </MudButton>
-                            </div>
-                            <div class="panel-btn">
-                                <MudButton Color="Color.Info"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.Speaker"
-                                           IconColor="Color.Dark"
-                                           Size="Size.Medium"
-                                           OnClick="SubscribeTopic"
-                                           Style="width: 100%">
-
-                                    Subscribe
-                                </MudButton>
-                            </div>
-                            <div class="panel-btn">
-                                <MudButton Color="Color.Error"
-                                           Variant="Variant.Filled"
-                                           StartIcon="@Icons.Material.Filled.Speaker"
-                                           IconColor="Color.Dark"
-                                           Size="Size.Medium"
-                                           OnClick="UnsubscribeTopic"
-                                           Style="width: 100%">
-
-                                    Unsubscribe
-                                </MudButton>
-                            </div>
-                        </div>
-                        <div class="message-info-box">
-                            <div class="message-info">
-                                @if (!string.IsNullOrEmpty(infoMessage.Message))
+                <MudPaper Elevation="3"
+                          Class="py-2 px-4 my-2 mt-1 rounded-lg"
+                          Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                          <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 5px 10px;">
+                            <div style="position: relative; margin: 10px 0;">
+                                @if (isClient)
                                 {
-                                    <MudPaper Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
-
-                                        <MudText Class="text-sm sm:text-base md:text-lg"
-                                                 Typo="Typo.h5"
-                                                 Color="@(infoMessage.Success ? Color.Success : Color.Error)">
-                                            <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
-                                                     Color="@(infoMessage.Success ? Color.Success : Color.Error)"
-                                                     Size="Size.Medium" />
-
-                                            @infoMessage.Message
-
-                                        </MudText>
-                                    </MudPaper>
+                                    <MudIcon Icon="@Icons.Material.Filled.Computer" Color="Color.Info" />
+                                    <MudText Color="Color.Success" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">@platform</MudText>
 
                                 }
                                 else
                                 {
+                                    <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Success" />
+                                    <MudText Color="Color.Info" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">@platform</MudText>
+                                }
+                            </div>
 
-                                    @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
+                            <div style="position: relative; margin: 10px 0;">
+                                @if (!OperatingSystem.IsBrowser())
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Info" />
+                                    <MudText Color="Color.Warning" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">WebSocket</MudText>
 
+                                }
+                                else
+                                {
+                                    <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Success" />
+                                    <MudText Color="Color.Success" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">SignalR</MudText>
                                 }
                             </div>
                         </div>
+                </MudPaper>
+
+                <MudPaper Elevation="3"
+                          Class="py-2 px-4 my-2 mt-4 rounded-lg"
+                          Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+
+                    <div class="panel">
+                        <div class="panel-display">
+                            <div>
+                                <MudTextField @bind-Value="topic"
+                                              Variant="Variant.Outlined"
+                                              Adornment="Adornment.End"
+                                              AdornmentText="Topic"
+                                              AdornmentColor="Color.Info"
+                                              Class="mb-4"
+                                              Style="background-color: #3b3b3b; color: #ffb74d;" />
+
+                                <MudTextField @bind-Value="message"
+                                              Variant="Variant.Outlined"
+                                              Adornment="Adornment.End"
+                                              AdornmentIcon="@Icons.Material.Filled.Topic"
+                                              AdornmentText="Message"
+                                              AdornmentColor="Color.Secondary"
+                                              Style="background-color: #3b3b3b; color: #eeeeee;"
+                                              @onclick="StopTimer" />
+                            </div>
+
+                        </div>
+
+                        <div class="panel-button" style="position: relative;">
+                            <div class="panel-btn-send">
+                                <MudButton Color="Color.Primary"
+                                           Variant="Variant.Filled"
+                                           StartIcon="@Icons.Material.Filled.Save"
+                                           IconColor="Color.Secondary"
+                                           Size="Size.Large"
+                                           OnClick="SendMessage"
+                                           Style="width: 100%">
+                                    Send
+                                </MudButton>
+                            </div>
+
+                            <div class="panel-btn-other">
+                                <div class="panel-btn">
+                                    <MudButton Color="Color.Success"
+                                               Variant="Variant.Filled"
+                                               StartIcon="@Icons.Material.Filled.CastConnected"
+                                               IconColor="Color.Secondary"
+                                               Size="Size.Medium"
+                                               OnClick="Connect"
+                                               Style="width: 100%">
+                                        Connect
+                                    </MudButton>
+                                </div>
+                                <div class="panel-btn">
+                                    <MudButton Color="Color.Warning"
+                                               Variant="Variant.Filled"
+                                               StartIcon="@Icons.Material.Filled.Remove"
+                                               IconColor="Color.Dark"
+                                               Size="Size.Medium"
+                                               OnClick="Disconnect"
+                                               Style="width: 100%">
+
+                                        Disconnect
+                                    </MudButton>
+                                </div>
+                                <div class="panel-btn">
+                                    <MudButton Color="Color.Info"
+                                               Variant="Variant.Filled"
+                                               StartIcon="@Icons.Material.Filled.Speaker"
+                                               IconColor="Color.Dark"
+                                               Size="Size.Medium"
+                                               OnClick="SubscribeTopic"
+                                               Style="width: 100%">
+
+                                        Subscribe
+                                    </MudButton>
+                                </div>
+                                <div class="panel-btn">
+                                    <MudButton Color="Color.Error"
+                                               Variant="Variant.Filled"
+                                               StartIcon="@Icons.Material.Filled.Speaker"
+                                               IconColor="Color.Dark"
+                                               Size="Size.Medium"
+                                               OnClick="UnsubscribeTopic"
+                                               Style="width: 100%">
+
+                                        Unsubscribe
+                                    </MudButton>
+                                </div>
+                            </div>
+                            <div class="message-info-box">
+                                <div class="message-info">
+                                    @if (!string.IsNullOrEmpty(infoMessage.Message))
+                                    {
+                                        <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+
+                                            <MudText Class="text-sm sm:text-base md:text-lg"
+                                                     Typo="Typo.h5"
+                                                     Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                                                <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
+                                                         Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                                                         Size="Size.Medium" />
+
+                                                @infoMessage.Message
+
+                                            </MudText>
+                                        </MudPaper>
+
+                                    }
+                                    else
+                                    {
+
+                                        @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
+
+                                    }
+                                </div>
+                            </div>
 
 
+                        </div>
                     </div>
-                </div>
+                </MudPaper>
+
             </MudPaper>
 
-            <MudPaper Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+            <MudPaper Outlined="true" Square="true" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
                 <div class="panel-message" style="position: relative;">
                     <MudPaper Elevation="3"
                               Class="py-4 px-2 my-2 mt-1 rounded-lg"
