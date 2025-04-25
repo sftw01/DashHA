@@ -25,36 +25,37 @@
 @* </div> *@
 
 
-<div class="message-info">
-    <div style="message-info-box ">
-        @if (!string.IsNullOrEmpty(infoMessage.Message))
-        {
-            <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
 
-                <MudText Class="text-sm sm:text-base md:text-lg"
-                         Typo="Typo.h5"
-                         Color="@(infoMessage.Success ? Color.Success : Color.Error)">
-                    <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
-                             Color="@(infoMessage.Success ? Color.Success : Color.Error)"
-                             Size="Size.Medium" />
-
-                    @infoMessage.Message
-
-                </MudText>
-            </MudPaper>
-
-        }
-        else
-        {
-
-            @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
-
-        }
-    </div>
-
-</div>
 
 <div class="manager">
+
+    <div class="message-info">
+        <div style="message-info-box ">
+            @if (!string.IsNullOrEmpty(infoMessage.Message))
+            {
+                <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+
+                    <MudText Class="text-sm sm:text-base md:text-lg"
+                             Typo="Typo.h5"
+                             Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                        <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
+                                 Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                                 Size="Size.Medium" />
+
+                        @infoMessage.Message
+
+                    </MudText>
+                </MudPaper>
+
+            }
+            else
+            {
+
+                @* <MudAlert Severity="Severity.Normal" Variant="Variant.Filled">Logs no available.</MudAlert> *@
+
+            }
+        </div>
+    </div>
 
     <section class="bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white min-h-[calc(100vh-8vh)] md:min-h-[calc(100vh-8vh)] ">
 
@@ -193,6 +194,8 @@
                 </MudPaper>
 
             </MudPaper>
+
+
 
             <MudPaper Outlined="true" Square="true" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
                 <div class="panel-message" style="position: relative;">
