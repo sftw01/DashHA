@@ -35,8 +35,9 @@
         <div class="max-w-7xl " style="margin: 0 auto;">
 
             <MudPaper Outlined="true" Square="true" class="pa-4" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
+
                 <div class="message-info">
-                    @if (!string.IsNullOrEmpty(infoMessage.Message))
+                    @if (string.IsNullOrEmpty(infoMessage.Message))
                     {
                         <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
 
@@ -47,7 +48,7 @@
                                          Color="@(infoMessage.Success ? Color.Success : Color.Error)"
                                          Size="Size.Medium" />
 
-                                @infoMessage.Message
+                                infoMessage.Message
 
                             </MudText>
                         </MudPaper>
@@ -96,7 +97,7 @@
 
                 <MudPaper Elevation="3"
                           Class="py-2 px-4 my-2 mt-4 rounded-lg"
-                          Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                          Style="max-height: 50vh; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
                     <div class="panel">
                         <div class="panel-display">
