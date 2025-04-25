@@ -44,19 +44,27 @@
 
 
 .message-info-box {
-    height: 100px; 
-    width: 100%; 
-/*    background-color: orange; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+    /*    position: fixed;*/
+    /*    top: 50%;*/
+    /*    left: 50%;*/
+    /*    transform: translate(-50%, -50%);*/
+    /*    height: 100px; */
+    /*    width: 100%; */
+    /*    background-color: orange; 
     border: 10px solid green;*/
 }
 
 .message-info {
     position: fixed;
     top: 0;
+    left: 10%;
+    right: 10%;
     /*    transform: translate(0%, -20%);*/
     z-index: 100;
-
-    border: 2px solid orange;
 }
 
 
