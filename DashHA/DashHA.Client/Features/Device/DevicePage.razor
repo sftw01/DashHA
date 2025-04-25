@@ -1,6 +1,9 @@
 ﻿@page "/device"
 @rendermode @(new InteractiveWebAssemblyRenderMode(true))
 
+@inject IJSRuntime JSRuntime
+
+
 @* @attribute [Authorize] *@
 
 
@@ -63,6 +66,14 @@
 
     public bool isEditable { get; set; }
 
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("scrollToTop");
+        }
+    }
 
     private void SwitchEditMode(MouseEventArgs args)
     {
