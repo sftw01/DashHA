@@ -1,5 +1,7 @@
 ﻿@page "/device"
-@rendermode @(new InteractiveWebAssemblyRenderMode(true))
+@* @rendermode @(new InteractiveWebAssemblyRenderMode(true)) *@
+@rendermode @(new InteractiveAutoRenderMode(true))
+
 
 @inject IJSRuntime JSRuntime
 
