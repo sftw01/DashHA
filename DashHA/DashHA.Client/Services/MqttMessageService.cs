@@ -105,7 +105,7 @@ namespace DashHA.Client.Services
             return await _hubConnection.InvokeAsync<MqttStatusResponse>("Disconnect");
         }
 
-        public async Task<MqttStatusResponse> SendMessageAsync(string message)
+        public async Task<MqttStatusResponse> SendMessageAsync(MqttMessage message)
         {
             if (_hubConnection is null)
                 return new MqttStatusResponse(false, "Błąd połączenia przez SignalR");

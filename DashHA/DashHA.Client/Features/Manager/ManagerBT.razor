@@ -148,7 +148,7 @@
         //set info message is sending
         message = showStatusMessage;
         StateHasChanged();
-        var response = await MqttMessageService.SendMessageAsync(tempMessage);
+        var response = await MqttMessageService.SendMessageAsync(new MqttMessage(topic, message));
         //after that, restore the original message and count time
         StartTimer();
         DisplayResponseMessage(response);

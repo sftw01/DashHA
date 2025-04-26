@@ -9,7 +9,7 @@ namespace DashHA.Client.Services
         Task StartAsync();
         Task<MqttStatusResponse> ConnectAsync();
         Task<MqttStatusResponse> DisconnectAsync();
-        Task<MqttStatusResponse> SendMessageAsync(string message);
+        Task<MqttStatusResponse> SendMessageAsync(MqttMessage message);
         Task<MqttStatusResponse> SubscribeAsync(string topic);
         Task<MqttStatusResponse> UnsubscribeAsync(string topic);
 
