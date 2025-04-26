@@ -27,6 +27,9 @@ jobs:
             cd /var/www/git/DashHA
             git pull origin master
 
+            echo ">>> Czyścić katalog publikacji"
+            sudo rm -rf /var/www/publish/DashHA/*
+
             echo ">>> Publikuję aplikację do katalogu produkcyjnego"
             dotnet publish /var/www/git/DashHA/DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
           
