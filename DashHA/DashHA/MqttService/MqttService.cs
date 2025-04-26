@@ -85,7 +85,7 @@ namespace DashHA.MqttService
             }
         }
 
-        public async Task<MqttStatusResponse> Publish_Application_Message(string message)
+        public async Task<MqttStatusResponse> Publish_Application_Message(MqttMessage message)
         {
 
             if (_mqttClient?.IsConnected != true)
@@ -95,8 +95,8 @@ namespace DashHA.MqttService
             }
 
             var applicationMessage = new MqttApplicationMessageBuilder()
-                .WithTopic("sensor1")
-                .WithPayload(message)
+                .WithTopic(message.Topic)
+                .WithPayload(message.Payload)
                 .Build();
 
             try

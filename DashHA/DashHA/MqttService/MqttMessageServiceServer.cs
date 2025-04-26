@@ -43,7 +43,7 @@ namespace DashHA.MqttService
 
         public Task<List<MqttMessage>> GetMqttMessagesAsync() => Task.FromResult(_mqttService.Messages);
 
-        public Task<MqttStatusResponse> SendMessageAsync(string message) =>
+        public Task<MqttStatusResponse> SendMessageAsync(MqttMessage message) =>
                        _mqttService.Publish_Application_Message(message);
 
         public async Task StartAsync()

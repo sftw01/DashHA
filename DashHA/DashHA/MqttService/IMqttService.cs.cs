@@ -4,7 +4,7 @@ namespace DashHA.MqttService
 {
     public interface IMqttService
     {
-        Task<MqttStatusResponse> Publish_Application_Message(string message);
+        Task<MqttStatusResponse> Publish_Application_Message(MqttMessage message);
         Task<MqttStatusResponse> ConnectAsync();
         Task<MqttStatusResponse> DisconnectAsync();
 

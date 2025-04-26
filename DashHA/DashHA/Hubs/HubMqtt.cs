@@ -45,7 +45,7 @@ namespace DashHA.Hubs
 
 
 
-        public async Task<MqttStatusResponse> SendMessage(string message)
+        public async Task<MqttStatusResponse> SendMessage(MqttMessage message)
         {
             _logger.LogInformation($"User with sigR Id '{Context.ConnectionId}' sent message: {message}");
             //Console.WriteLine($"User with sigR Id '{Context.ConnectionId}' sent message: {message}");

@@ -36,11 +36,11 @@
                 <MudPaper Outlined="true" Square="true" Elevation="3" Class="p-4 rounded-lg" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
 
                     <MudText Class="text-sm sm:text-base md:text-lg"
-                             Typo="Typo.h5"
-                             Color="@(infoMessage.Success ? Color.Success : Color.Error)">
+                    Typo="Typo.h5"
+                    Color="@(infoMessage.Success ? Color.Success : Color.Error)">
                         <MudIcon Icon="@(infoMessage.Success ? Icons.Material.Filled.CheckCircle : Icons.Material.Filled.Error)"
-                                 Color="@(infoMessage.Success ? Color.Success : Color.Error)"
-                                 Size="Size.Medium" />
+                        Color="@(infoMessage.Success ? Color.Success : Color.Error)"
+                        Size="Size.Medium" />
 
                         @infoMessage.Message
 
@@ -66,8 +66,8 @@
 
 
                 <MudPaper Elevation="3"
-                          Class="py-2 px-4 my-2 mt-1 rounded-lg"
-                          Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                Class="py-2 px-4 my-2 mt-1 rounded-lg"
+                Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
                     <div style="display: flex; flex-direction: row; justify-content: space-between; padding: 5px 10px;">
                         <div style="position: relative; margin: 10px 0;">
                             @if (isClient)
@@ -100,28 +100,28 @@
                 </MudPaper>
 
                 <MudPaper Elevation="3"
-                          Class="py-4 px-4 my-2 mt-1 rounded-lg"
-                          Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                Class="py-4 px-4 my-2 mt-1 rounded-lg"
+                Style="max-height: 50vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
                     <div class="panel">
                         <div class="panel-display">
                             <div>
                                 <MudTextField @bind-Value="topic"
-                                              Variant="Variant.Outlined"
-                                              Adornment="Adornment.End"
-                                              AdornmentText="Topic"
-                                              AdornmentColor="Color.Info"
-                                              Class="mb-4"
-                                              Style="background-color: #3b3b3b; color: #ffb74d;" />
+                                Variant="Variant.Outlined"
+                                Adornment="Adornment.End"
+                                AdornmentText="Topic"
+                                AdornmentColor="Color.Info"
+                                Class="mb-4"
+                                Style="background-color: #3b3b3b; color: #ffb74d;" />
 
                                 <MudTextField @bind-Value="message"
-                                              Variant="Variant.Outlined"
-                                              Adornment="Adornment.End"
-                                              AdornmentIcon="@Icons.Material.Filled.Topic"
-                                              AdornmentText="Message"
-                                              AdornmentColor="Color.Secondary"
-                                              Style="background-color: #3b3b3b; color: #eeeeee;"
-                                              @onclick="StopTimer" />
+                                Variant="Variant.Outlined"
+                                Adornment="Adornment.End"
+                                AdornmentIcon="@Icons.Material.Filled.Topic"
+                                AdornmentText="Message"
+                                AdornmentColor="Color.Secondary"
+                                Style="background-color: #3b3b3b; color: #eeeeee;"
+                                @onclick="StopTimer" />
                             </div>
 
                         </div>
@@ -129,12 +129,12 @@
                         <div class="panel-button" style="position: relative;">
                             <div class="panel-btn-send">
                                 <MudButton Color="Color.Primary"
-                                           Variant="Variant.Filled"
-                                           EndIcon="@Icons.Material.Filled.Send"
-                                           IconColor="Color.Secondary"
-                                           Size="Size.Large"
-                                           OnClick="SendMessage"
-                                           Style="width: 100%">
+                                Variant="Variant.Filled"
+                                EndIcon="@Icons.Material.Filled.Send"
+                                IconColor="Color.Secondary"
+                                Size="Size.Large"
+                                OnClick="SendMessage"
+                                Style="width: 100%">
                                     Send
                                 </MudButton>
                             </div>
@@ -142,47 +142,47 @@
                             <div class="panel-btn-other">
                                 <div class="panel-btn">
                                     <MudButton Color="Color.Success"
-                                               Variant="Variant.Filled"
-                                               StartIcon="@Icons.Material.Filled.Link"
-                                               IconColor="Color.Secondary"
-                                               Size="Size.Medium"
-                                               OnClick="Connect"
-                                               Style="width: 100%">
+                                    Variant="Variant.Filled"
+                                    StartIcon="@Icons.Material.Filled.Link"
+                                    IconColor="Color.Secondary"
+                                    Size="Size.Medium"
+                                    OnClick="Connect"
+                                    Style="width: 100%">
                                         Connect
                                     </MudButton>
                                 </div>
                                 <div class="panel-btn">
                                     <MudButton Color="Color.Warning"
-                                               Variant="Variant.Filled"
-                                               StartIcon="@Icons.Material.Filled.LinkOff"
-                                               IconColor="Color.Dark"
-                                               Size="Size.Medium"
-                                               OnClick="Disconnect"
-                                               Style="width: 100%">
+                                    Variant="Variant.Filled"
+                                    StartIcon="@Icons.Material.Filled.LinkOff"
+                                    IconColor="Color.Dark"
+                                    Size="Size.Medium"
+                                    OnClick="Disconnect"
+                                    Style="width: 100%">
 
                                         Disconnect
                                     </MudButton>
                                 </div>
                                 <div class="panel-btn">
                                     <MudButton Color="Color.Info"
-                                               Variant="Variant.Filled"
-                                               StartIcon="@Icons.Material.Filled.Add"
-                                               IconColor="Color.Dark"
-                                               Size="Size.Medium"
-                                               OnClick="SubscribeTopic"
-                                               Style="width: 100%">
+                                    Variant="Variant.Filled"
+                                    StartIcon="@Icons.Material.Filled.Add"
+                                    IconColor="Color.Dark"
+                                    Size="Size.Medium"
+                                    OnClick="SubscribeTopic"
+                                    Style="width: 100%">
 
                                         Subscribe
                                     </MudButton>
                                 </div>
                                 <div class="panel-btn">
                                     <MudButton Color="Color.Error"
-                                               Variant="Variant.Filled"
-                                               StartIcon="@Icons.Material.Filled.Remove"
-                                               IconColor="Color.Dark"
-                                               Size="Size.Medium"
-                                               OnClick="UnsubscribeTopic"
-                                               Style="width: 100%">
+                                    Variant="Variant.Filled"
+                                    StartIcon="@Icons.Material.Filled.Remove"
+                                    IconColor="Color.Dark"
+                                    Size="Size.Medium"
+                                    OnClick="UnsubscribeTopic"
+                                    Style="width: 100%">
 
                                         Unsubscribe
                                     </MudButton>
@@ -195,20 +195,18 @@
 
             </MudPaper>
 
-
-
             <MudPaper Outlined="true" Square="true" class="pa-4" Style="border: 1px solid #555; background-color: #2e2e2e; color: white;">
                 <div class="panel-message" style="position: relative;">
 
                     <MudPaper Elevation="3"
-                              Class="py-2 px-4 my-2 mt-1 rounded-lg"
-                              Style="max-height: 40vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                    Class="py-2 px-4 my-2 mt-1 rounded-lg"
+                    Style="max-height: 40vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
 
                         @if (mqttMessages is null)
                         {
                             <div class="pa-2"
-                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
+                            style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px;">
                                 <MudAlert Severity="Severity.Warning" Variant="Variant.Filled">
                                     Pobieranie z serwera...
                                 </MudAlert>
@@ -252,7 +250,7 @@
                             </div>
 
                             <div class="pa-2"
-                                 style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px; overflow: hidden;">
+                            style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; min-height: 200px; overflow: hidden;">
                                 <MudAlert Severity="Severity.Normal" Variant="Variant.Filled" Style="overflow: hidden;">
                                     Message List Empty
                                 </MudAlert>
@@ -263,11 +261,11 @@
                     </MudPaper>
                     <div style="height: 20vh; display: flex; justify-content: center; align-items: center;">
                         <MudButton Color="Color.Primary"
-                                   Variant="Variant.Filled"
-                                   StartIcon="@Icons.Material.Filled.ArrowBack"
-                                   Size="Size.Medium"
-                                   OnClick="NavigateBack"
-                                   Style="background-color: #3b3b3b; color: white;">
+                        Variant="Variant.Filled"
+                        StartIcon="@Icons.Material.Filled.ArrowBack"
+                        Size="Size.Medium"
+                        OnClick="NavigateBack"
+                        Style="background-color: #3b3b3b; color: white;">
                             Back
                         </MudButton>
                     </div>
@@ -287,10 +285,10 @@
 
     private InfoMessage infoMessage = new InfoMessage(false, string.Empty);
     private string platform;
-
-
-    public string message { get; set; } = $"Message: {DateTime.Now.ToString("HH:mm:ss")}";
     public string topic { get; set; } = "sensor1";
+
+    public string message { get; set; } = string.Empty;
+    public MqttMessage mqttMessage { get; set; } = new MqttMessage();
 
     private CancellationTokenSource? _cts;
     private List<MqttMessage>? mqttMessages = null;
@@ -342,7 +340,8 @@
     {
         counter++;
         string showStatusMessage = "Wysyłanie wiadomości... ";
-        var tempMessage = message;
+        MqttMessage tempMessage = new MqttMessage( topic, message );
+
         //set info message is sending
         message = showStatusMessage;
         StateHasChanged();
