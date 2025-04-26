@@ -10,6 +10,10 @@ namespace DashHA.MqttService
 
         Task<MqttStatusResponse> AddTopicToSubscribeAsync(string topic);
         Task<MqttStatusResponse> RemoveTopicFromSubscribeAsync(string topic);
+
+        //get all topics
+        //Task<List<string>> GetAllTopicsAsync();
+
         event Func<MqttMessage, Task>? OnMessageReceived;
         List<MqttMessage> Messages { get; set; }
         //void AddMessage(MqttMessage message);
