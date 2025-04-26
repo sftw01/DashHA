@@ -1,0 +1,15 @@
+﻿<div class="control-card bg-green-500/20 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-green-400/30 mt-4" style="cursor: pointer;" @onclick="TurnOff">
+    <h1 class="drop-shadow-lg text-center py-4" style="font-size: 4rem;">
+        ✅
+    </h1>
+    <h2 class="text-3xl font-semibold text-green-300 text-center">Wentylator włączony</h2>
+    <p class="text-sm text-white/60 text-center mt-2">Kliknij, aby wyłączyć</p>
+</div>
+
+@code {
+    private void TurnOff()
+    {
+        Console.WriteLine("Wyłączono!");
+        // Tutaj możesz dodać logikę do wyłączenia urządzenia
+    }
+}

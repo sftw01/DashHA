@@ -1,5 +1,18 @@
-﻿<!-- Wilgotność -->
-<div class="bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-white/20">
+﻿@* @rendermode InteractiveServerRenderMode *@
+@* @rendermode InteractiveServer *@
+
+@inject ILogger<TemperatureCard> _logger
+
+
+<!-- humidity -->
+<div class="temperature-card bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-white/20" style="cursor: pointer;">
+    @if (isEditable)
+    {
+        <div style="z-index: 100;" class="edit-icon m-3" @onclick="BtnEditClicked">
+            ✏️
+        </div>
+    }
+
     <h1 class="drop-shadow-lg text-center py-4" style="font-size: 4rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
         💧
     </h1>
@@ -9,7 +22,16 @@
 </div>
 
 
-
 @code {
+    [CascadingParameter]
+    public bool isEditable { get; set; }
 
+
+    private void BtnEditClicked(MouseEventArgs args)
+    {
+        _logger.LogInformation("Edit button clicked olowek");
+        // Handle the edit button click event here
+        Console.WriteLine("Edit button clicked! olowek");
+    }
 }
+

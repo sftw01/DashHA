@@ -1,5 +1,7 @@
 ﻿@page "/device"
-@rendermode @(new InteractiveWebAssemblyRenderMode(true))
+@* @rendermode @(new InteractiveWebAssemblyRenderMode(true)) *@
+@rendermode @(new InteractiveAutoRenderMode(true))
+
 
 @inject IJSRuntime JSRuntime
 
@@ -41,7 +43,7 @@
                         Konfiguruj MQTT
                     </a>
 
-                    <a href="#"
+                    <a href="/managerNotAuthorize"
                        class="flex-1 text-center bg-white/20 hover:bg-white/30 text-white font-medium px-6 py-3 rounded-lg border border-white/30 shadow transition">
                         Historia pomiarów
                     </a>

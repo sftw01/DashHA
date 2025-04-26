@@ -4,7 +4,7 @@
 @inject ILogger<TemperatureCard> _logger
 
 
-<!-- Temperatura -->
+<!-- humidity -->
 <div class="temperature-card bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-white/20" style="cursor: pointer;">
     @if (isEditable)
     {
@@ -13,15 +13,12 @@
         </div>
     }
 
-    <h1 class="drop-shadow-lg text-center py-4" style=" font-size: 4rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
-        ✅
+    <h1 class="drop-shadow-lg text-center py-4" style="font-size: 4rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
+        🚨
     </h1>
-    <h2 class="text-3xl font-semibold text-yellow-300">Status ESP</h2>
-    <p class="text-3xl font-bold mt-2">Połączono</p>
-    <p class="text-sm text-white/60 mt-1">Status połączenia</p>
+    <h2 class="text-3xl font-semibold text-red-300">Alarmy</h2>
+    <p class="text-sm text-white/60 mt-1">Brak alarmów</p>
 </div>
-
-
 
 
 @code {
@@ -36,5 +33,4 @@
         Console.WriteLine("Edit button clicked! olowek");
     }
 }
-
 
