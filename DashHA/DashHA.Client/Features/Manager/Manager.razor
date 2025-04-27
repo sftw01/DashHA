@@ -327,6 +327,8 @@
                 isClient = false;
             }
         }
+
+
     }
 
 
@@ -341,6 +343,7 @@
         counter++;
         string showStatusMessage = "Wysyłanie wiadomości... ";
         MqttMessage tempMessage = new MqttMessage( topic, message );
+        MqttMessage messagesList = new MqttMessage(topic, message);
 
         //set info message is sending
         message = showStatusMessage;
@@ -445,6 +448,8 @@
 
     private void OnClickDelete()
     {
+        mqttMessages = MqttMessageService.Messages;
+
         Console.WriteLine($"mqttMessages.Count = {mqttMessages.Count} ");
         MqttMessageService.ClearMessageList();
         StateHasChanged();
@@ -452,11 +457,11 @@
 
     private async Task OnClickFetchMessage()
     {
-
+        await MqttMessageService.FetchMessagesAsync();
         //Fetch messages from MqttService to MqttMessageService or MqttMessageServiceServer
         var tempList = await MqttMessageService.GetMqttMessagesListAsync();
         MqttMessageService.Messages = tempList;
-        await MqttMessageService.FetchMessagesAsync();
+
         StateHasChanged();
 
     }

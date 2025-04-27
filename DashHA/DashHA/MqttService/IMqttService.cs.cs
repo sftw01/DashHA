@@ -16,8 +16,10 @@ namespace DashHA.MqttService
 
         event Func<MqttMessage, Task>? OnMessageReceived;
         List<MqttMessage> Messages { get; set; }
-        //void AddMessage(MqttMessage message);
 
+        Task<List<MqttMessage>> GetMessagesAsync();
+        Task<MqttStatusResponse> ClearMessagesAsync();
+        //void AddMessage(MqttMessage message);
 
     }
 }

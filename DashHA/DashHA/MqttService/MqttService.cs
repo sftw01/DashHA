@@ -239,6 +239,9 @@ namespace DashHA.MqttService
                 Payload = e.ApplicationMessage.ConvertPayloadToString()
             };
 
+            //add message to history list
+            Messages.Add(message);
+
             if (_hubContext is not null)
             {
                 _logger.LogInformation($"MqttService.cs - HandleReceived -  T: {message.Topic}, P: {message.Payload}");
@@ -252,6 +255,16 @@ namespace DashHA.MqttService
                     _logger.LogWarning("OnMessageReceived jest null");
                 }
             }
+        }
+
+        public Task<List<MqttMessage>> GetMessagesAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<MqttStatusResponse> ClearMessagesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

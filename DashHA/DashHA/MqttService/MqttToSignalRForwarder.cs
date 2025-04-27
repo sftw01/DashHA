@@ -17,7 +17,7 @@ namespace DashHA.MqttService
                 logger.LogInformation($"[FORWARDER] Otrzymano wiadomość MQTT: {mqttMessage.Topic} - {mqttMessage.Payload}");
 
                 //add message toi history list 
-                mqttService.Messages.Add(mqttMessage);
+                //mqttService.Messages.Add(mqttMessage);
                 await hubContext.Clients.All.SendAsync("ReceiveMessage", mqttMessage);
 
                 logger.LogInformation($"[FORWARDER] Wysłano przez SignalR: {mqttMessage.Topic}");
