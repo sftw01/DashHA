@@ -56,8 +56,8 @@ namespace DashHA.MqttService
             }
 
             var mqttClientOptions = new MqttClientOptionsBuilder()
-                .WithTcpServer("broker.hivemq.com")
-                //.WithTcpServer("localhost", 1883)
+                //.WithTcpServer("broker.hivemq.com")
+                .WithTcpServer("localhost", 1883)
                 .Build();
 
             try
