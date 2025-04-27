@@ -199,7 +199,7 @@
                 <div class="panel-message" style="position: relative;">
 
                     <MudPaper Elevation="3"
-                              Class="py-2 px-4 my-2 mt-1 rounded-lg"
+                    Class="py-2 px-4 my-2 mt-1 rounded-lg"
                     Style="max-height: 40vh; min-height: 200px; overflow-y: auto; border: 2px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
 
@@ -448,9 +448,16 @@
 
     private void OnClickDelete()
     {
-        mqttMessages = MqttMessageService.Messages;
+        if (mqttMessages != null)
+        {
+            Console.WriteLine($"mqttMessages.Count = {mqttMessages.Count}");
+            mqttMessages.Clear();
+        }
+        else
+        {
+            Console.WriteLine("mqttMessages is null");
+        }
 
-        Console.WriteLine($"mqttMessages.Count = {mqttMessages.Count} ");
         MqttMessageService.ClearMessageList();
         StateHasChanged();
     }
@@ -458,9 +465,8 @@
     private async Task OnClickFetchMessage()
     {
         await MqttMessageService.FetchMessagesAsync();
-        //Fetch messages from MqttService to MqttMessageService or MqttMessageServiceServer
-        var tempList = await MqttMessageService.GetMqttMessagesListAsync();
-        MqttMessageService.Messages = tempList;
+
+        mqttMessages = await MqttMessageService.GetMqttMessagesListAsync();
 
         StateHasChanged();
 
