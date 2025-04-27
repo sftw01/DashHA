@@ -73,3 +73,25 @@
     .button-register:hover {
         background-color: #fbbf24;
     }
+
+
+.button-login-dark {
+    background-color: #555; /* ciemnoszary */
+    color: #ddd; /* biały tekst, żeby lepiej było widać */
+    padding: 10px 20px; /* opcjonalnie marginesy wewnętrzne */
+    border-block-end: 2px solid #222; /* żółta linia na dole */
+    border-radius: 5px; /* opcjonalnie zaokrąglenie rogów */
+    text-decoration: none; /* bez podkreślenia */
+    display: inline-block; /* żeby działało jak przycisk */
+
+}
+
+.button-register-dark {
+    background-color: #444; /* ciemnoszary */
+    color: #ccc; /* biały tekst, żeby lepiej było widać */
+    padding: 10px 20px; /* opcjonalnie marginesy wewnętrzne */
+    border-block-end: 2px solid #999; /* żółta linia na dole */
+    border-radius: 5px; /* opcjonalnie zaokrąglenie rogów */
+    text-decoration: none; /* bez podkreślenia */
+    display: inline-block; /* żeby działało jak przycisk */
+}
