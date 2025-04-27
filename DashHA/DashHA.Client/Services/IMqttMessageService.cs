@@ -5,7 +5,7 @@ namespace DashHA.Client.Services
     public interface IMqttMessageService
     {
         event Action<MqttMessage> OnMessageReceived;
-        List<MqttMessage> Messages { get; }
+        List<MqttMessage> Messages { get; set; }
         Task StartAsync();
         Task<MqttStatusResponse> ConnectAsync();
         Task<MqttStatusResponse> DisconnectAsync();

@@ -199,8 +199,8 @@
                 <div class="panel-message" style="position: relative;">
 
                     <MudPaper Elevation="3"
-                    Class="py-2 px-4 my-2 mt-1 rounded-lg"
-                    Style="max-height: 40vh ; overflow-y: auto; border: 1px solid #555; background-color: #2e2e2e; color: white; position: relative;">
+                              Class="py-2 px-4 my-2 mt-1 rounded-lg"
+                    Style="max-height: 40vh; min-height: 200px; overflow-y: auto; border: 2px solid #555; background-color: #2e2e2e; color: white; position: relative;">
 
 
                         @if (mqttMessages is null)
@@ -241,7 +241,7 @@
                                 }
                             </ul>
                         }
-                        else if (mqttMessages.Count == 0)
+                        else if(mqttMessages.Count == 0)
                         {
                             <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
                                 <MudButton @onclick="OnClickFetchMessage" Color="Color.Success" Variant="Variant.Filled" Style="min-width: 30px; width: 30px; height: 30px;">
@@ -454,6 +454,8 @@
     {
 
         //Fetch messages from MqttService to MqttMessageService or MqttMessageServiceServer
+        var tempList = await MqttMessageService.GetMqttMessagesListAsync();
+        MqttMessageService.Messages = tempList;
         await MqttMessageService.FetchMessagesAsync();
         StateHasChanged();
 
