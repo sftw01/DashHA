@@ -27,9 +27,9 @@
 
 <TopBarMudBlazor />
 
-<div class="manager">
+<div class="manager" >
 
-    <div class="message-info">
+    <div class="message-info" >
         <div class="message-info-box ">
             @if (!string.IsNullOrEmpty(infoMessage.Message))
             {
@@ -259,18 +259,25 @@
 
 
                     </MudPaper>
-                    <div style="height: 20vh; display: flex; justify-content: center; align-items: center;">
+                    <div style="height: 10vh; display: flex; justify-content: center; align-items: center; position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%)">
                         <MudButton Color="Color.Primary"
                         Variant="Variant.Filled"
                         StartIcon="@Icons.Material.Filled.ArrowBack"
                         Size="Size.Medium"
                         OnClick="NavigateBack"
-                        Style="background-color: #3b3b3b; color: white;">
+                        EndIcon="@Icons.Material.Filled.DashboardCustomize"
+                                   Style="background-color: #333; color: white; padding: 15px 20px;">
                             Back
                         </MudButton>
                     </div>
 
+
+
                 </div>
+                <div style="height: 50vh;">
+
+                </div>
+
             </MudPaper>
         </div>
 
