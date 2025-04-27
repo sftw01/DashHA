@@ -464,6 +464,11 @@
 
     private async Task OnClickFetchMessage()
     {
+        mqttMessages = null; 
+        StateHasChanged();
+
+        await Task.Delay(1000);
+
         await MqttMessageService.FetchMessagesAsync();
 
         mqttMessages = await MqttMessageService.GetMqttMessagesListAsync();
@@ -471,6 +476,8 @@
         StateHasChanged();
 
     }
+
+
 
     private void NavigateBack()
     {
