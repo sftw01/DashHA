@@ -315,8 +315,7 @@
     {
         if (firstRender)
         {
-            // await Task.Delay(3000);
-
+            await JSRuntime.InvokeVoidAsync("scrollToTop");
             try
             {
                 // if not exception then isClient
