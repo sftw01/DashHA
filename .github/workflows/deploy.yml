@@ -31,8 +31,11 @@ jobs:
             sudo rm -rf /var/www/publish/DashHA/*
 
             echo ">>> Publikuję aplikację do katalogu produkcyjnego"
-            dotnet publish /var/www/git/DashHA/DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
+            dotnet publish /var/www/git/DashHA/DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA --nologo --no-self-contained
           
+            echo ">>> Sprawdzam zawartość _framework"
+            ls -lh /var/www/publish/DashHA/wwwroot/_framework
+
             echo ">>> Restartuję usługę systemd"
             sudo systemctl restart dashha
 
