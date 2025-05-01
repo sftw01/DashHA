@@ -25,12 +25,12 @@ jobs:
           sshpass -p "${{ secrets.DEV_VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.DEV_VPS_USER }}@${{ secrets.DEV_VPS_HOST }} << 'EOF'
             echo ">>> Wchodzę do repo i pulluję najnowszy kod"
             cd /var/www/git/DashHA
-            git pull origin master
+            git pull origin develop
 
             echo ">>> Czyścić katalog publikacji"
             sudo rm -rf /var/www/publish/DashHA/*
 
-            echo ">>> Publikuję aplikację do katalogu produkcyjnego"
+            echo ">>> Publikuję aplikację do katalogu develope"
             dotnet publish /var/www/git/DashHA/DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
           
             echo ">>> Restartuję usługę systemd"
