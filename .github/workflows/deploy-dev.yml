@@ -3,7 +3,7 @@ name: Deploy DashHA to Mikr.us
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   deploy:
