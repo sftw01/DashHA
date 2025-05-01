@@ -24,7 +24,7 @@ builder.Services.AddSignalR();
 builder.Services.AddSingleton<IMqttService, MqttService>();
 builder.Services.AddSingleton<MqttToSignalRForwarder>();
 
-builder.Services.AddTransient<IMqttMessageService, MqttMessageServiceServer>();
+builder.Services.AddScoped<IMqttMessageService, MqttMessageServiceServer>();
 
 
 //builder.Services.AddDataProtection()
