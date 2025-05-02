@@ -3,7 +3,7 @@ name: Deploy DashHA to Mikr.us
 on:
   push:
     branches:
-      - master
+      - develop
 
 jobs:
   deploy:
@@ -22,10 +22,10 @@ jobs:
 
       - name: Deploy via SSH
         run: |
-          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.DEV_VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.DEV_VPS_USER }}@${{ secrets.DEV_VPS_HOST }} << 'EOF'
             echo ">>> Wchodzę do repo i pulluję najnowszy kod"
             cd /var/www/git/DashHA
-            git pull origin master
+            git pull origin develop
 
             echo ">>> Czyścić katalog publikacji"
             sudo rm -rf /var/www/publish/DashHA/*
