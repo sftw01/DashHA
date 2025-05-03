@@ -1,9 +1,9 @@
-name: Deploy DashHA prod server d346 apache
+name: Deploy DashHA test server d340 apache
 
 on:
   push:
     branches:
-      - master
+      - test
 
 jobs:
   deploy:
@@ -22,15 +22,15 @@ jobs:
 
       - name: Deploy via SSH
         run: |
-          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+          sshpass -p "${{ secrets.TEST_VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.TEST_VPS_USER }}@${{ secrets.TEST_VPS_HOST }} << 'EOF'
             echo ">>> Wchodzę do repo i pulluję najnowszy kod"
             cd /var/www/git/DashHA
-            git pull origin master
+            git pull origin test
 
             echo ">>> Czyścić katalog publikacji"
             sudo rm -rf /var/www/publish/DashHA/*
 
-            echo ">>> Publikuję aplikację do katalogu produkcyjnego"
+            echo ">>> Publikuję aplikację do katalogu testowego"
             dotnet publish /var/www/git/DashHA/DashHA/DashHA/DashHA.csproj -c Release -o /var/www/publish/DashHA
           
             echo ">>> Restartuję usługę systemd"
