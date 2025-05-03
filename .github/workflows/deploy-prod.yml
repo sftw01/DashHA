@@ -1,4 +1,4 @@
-name: Deploy DashHA prod server nginx
+name: Deploy DashHA prod server apache
 
 on:
   push:
