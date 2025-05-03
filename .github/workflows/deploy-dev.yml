@@ -1,4 +1,4 @@
-name: Deploy DashHA to Mikr.us
+name: Deploy DashHA dev server n255 apache
 
 on:
   push:
