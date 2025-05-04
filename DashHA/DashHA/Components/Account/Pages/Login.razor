@@ -89,72 +89,32 @@
     </div>
 </section>
 
-@* <StatusMessage Message="@errorMessage" />  *@
-@* <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login"> *@
-@*     <DataAnnotationsValidator /> *@
-@*     <h2>Use a local account to log in.</h2> *@
-@*     <hr /> *@
-@*     <ValidationSummary class="text-danger" role="alert" /> *@
-@*     <div class="form-floating mb-3"> *@
-@*         <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" /> *@
-@*         <label for="Input.Email" class="form-label">Email</label> *@
-@*         <ValidationMessage For="() => Input.Email" class="text-danger" /> *@
-@*     </div> *@
-@*     <div class="form-floating mb-3"> *@
-@*         <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" /> *@
-@*         <label for="Input.Password" class="form-label">Password</label> *@
-@*         <ValidationMessage For="() => Input.Password" class="text-danger" /> *@
-@*     </div> *@
-@*     <div class="checkbox mb-3"> *@
-@*         <label class="form-label"> *@
-@*             <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" /> *@
-@*             Remember me *@
-@*         </label> *@
-@*     </div> *@
-@*     <div> *@
-@*         <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button> *@
-@*     </div> *@
-@*     <div> *@
-@*         <p> *@
-@*             <a href="Account/ForgotPassword">Forgot your password?</a> *@
-@*         </p> *@
-@*         <p> *@
-@*             <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a> *@
-@*         </p> *@
-@*         <p> *@
-@*              <a href="Account/ResendEmailConfirmation">Resend email confirmation</a> *@
-@*         </p> *@
-@*     </div> *@
-@* </EditForm> *@
+
+<footer class="bg-gradient-to-br from-indigo-800 via-purple-800 to-pink-700 text-white py-8 px-4">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
+        <div>
+            <h3 class="text-xl font-bold mb-2">DashHA</h3>
+            <p class="text-white/80">Twoja aplikacja do zarządzania domem i MQTT.</p>
+        </div>
+
+        <div>
+            <h4 class="text-lg font-semibold mb-2">Linki</h4>
+            <ul class="space-y-1 text-white/90">
+                <li><a href="/" class="hover:text-yellow-300 transition">Strona główna</a></li>
+                <li><a href="/account/login" class="hover:text-yellow-300 transition">Logowanie</a></li>
+                <li><a href="/account/register" class="hover:text-yellow-300 transition">Rejestracja</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h4 class="text-lg font-semibold mb-2">Kontakt</h4>
+            <p class="text-white/80">Email: <a href="mailto:kontakt@dashha.pl" class="hover:text-yellow-300 transition">kontakt@dashha.pl</a></p>
+            <p class="text-white/80">© @DateTime.Now.Year DashHA. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </div>
+</footer>
 
 
-
-@* <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-            @*     <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white font-bold px-6 py-3 rounded-lg shadow transition"> *@
-@*         Zaloguj się *@
-@*     </a> *@
-@*     <a href="#" class="border border-white/30 hover:bg-white/10 text-white font-medium px-6 py-3 rounded-lg shadow transition"> *@
-@*         Rejestracja *@
-@*     </a> *@
-@*     <a class="text-sm text-white/70 hover:text-white transition mt-2 sm:mt-0 sm:self-center" href="#"> *@
-@*         Zapomniałeś hasła? *@
-@*     </a> *@
-@* </div> *@
-
-
-@* <h1>Log in</h1> *@
-@* <div class="row"> *@
-@*     <div class="col-lg-6"> *@
-
-@*     </div> *@
-@*     <div class="col-lg-4 col-lg-offset-2"> *@
-@*         <section> *@
-@*             <h3>Use another service to log in.</h3> *@
-@*             <hr /> *@
-@*             <ExternalLoginPicker /> *@
-@*         </section> *@
-@*     </div> *@
-@* </div> *@
 
 @code {
     private string? errorMessage;
@@ -176,6 +136,8 @@
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
         }
     }
+
+
 
     public async Task LoginUser()
     {
