@@ -2,6 +2,7 @@
 {
     public interface IMqttNotificationServiceServer
     {
+        //jakis kod
 
     }
 }
