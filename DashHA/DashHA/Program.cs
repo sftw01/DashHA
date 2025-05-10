@@ -3,6 +3,7 @@ using DashHA.Components;
 using DashHA.Components.Account;
 using DashHA.Data;
 using DashHA.Hubs;
+using DashHA.MqttNotificationService;
 using DashHA.MqttService;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.DataProtection;
@@ -25,6 +26,7 @@ builder.Services.AddSingleton<IMqttService, MqttService>();
 builder.Services.AddSingleton<MqttToSignalRForwarder>();
 
 builder.Services.AddScoped<IMqttMessageService, MqttMessageServiceServer>();
+builder.Services.AddSingleton<IMqttNotificationService, MqttNotificationService>();
 
 
 //builder.Services.AddDataProtection()

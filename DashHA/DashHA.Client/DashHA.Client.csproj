@@ -19,4 +19,9 @@
     <ProjectReference Include="..\..\DashHA.Shared\DashHA.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\MessageService\" />
+    <Folder Include="Services\NotificationService\" />
+  </ItemGroup>
+
 </Project>
