@@ -1,38 +1,45 @@
-﻿using DashHA.Client.Services.NotificationService;
+﻿using DashHA.MqttNotificationService;
+using DashHA.Shared;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DashHA.Hubs
 {
-    public class HubNotificationCard : Hub<INotificationCardService>
+    public class HubNotificationCard : Hub
     {
-        //private readonly ILogger<HubNotificationCard> _logger;
-        //private readonly IMqttNotificationService _mqttNotificationService;
+        private readonly ILogger<HubNotificationCard> _logger;
+        private readonly IMqttNotificationService _mqttNotificationService;
 
-        //public HubNotificationCard(IMqttNotificationService mqttNotificationService, ILogger<HubNotificationCard> logger)
-        //{
-        //    _mqttNotificationService = mqttNotificationService;
-        //    _logger = logger;
+        public HubNotificationCard(IMqttNotificationService mqttNotificationService, ILogger<HubNotificationCard> logger)
+        {
+            _mqttNotificationService = mqttNotificationService;
+            _logger = logger;
 
-        //    // Subskrybuj zdarzenie z poprawną metodą obsługi
-        //    _mqttNotificationService.OnNotificationReceived += OnNotificationReceived;
-        //}
+            // Subskrybuj zdarzenie z serwisu MQTT
+            _mqttNotificationService.OnNotificationReceived += HandleMqttNotification;
+        }
 
-        //// Metoda musi mieć parametr typu MqttMessage
-        //public async Task OnNotificationReceived(MqttMessage message)
-        //{
-        //    _logger.LogInformation($"Otrzymano powiadomienie MQTT: {message.Topic} - {message.Payload}");
-        //    // Przekazanie powiadomienia do klientów połączonych przez SignalR
-        //    await Clients.All.OnNotificationReceived(message);
-        //}
+        // Obsługa powiadomienia MQTT
+        private async Task HandleMqttNotification(MqttMessage message)
+        {
+            _logger.LogInformation($"Otrzymano powiadomienie MQTT: {message.Topic} - {message.Payload}");
+            //await Clients.All()
 
-        //public override async Task OnConnectedAsync()
-        //{
-        //    Console.WriteLine($"Użytkownik z sigR Id '{Context.ConnectionId}' połączony. - powiadomienie");
-        //}
+            //OnNotificationReceived
+            //    .SendAsync("OnNotificationReceived", message);
+            await Clients.All.SendAsync("OnNotificationReceived", message);
 
-        //public override async Task OnDisconnectedAsync(Exception? exception)
-        //{
-        //    Console.WriteLine($"Użytkownik z sigR Id '{Context.ConnectionId}' rozłączony. - powiadomienie");
-        //}
+        }
+
+        public override async Task OnConnectedAsync()
+        {
+            _logger.LogInformation($"Użytkownik z SignalR Id '{Context.ConnectionId}' połączony. - powiadomienie");
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception? exception)
+        {
+            _logger.LogInformation($"Użytkownik z SignalR Id '{Context.ConnectionId}' rozłączony. - powiadomienie");
+            await base.OnDisconnectedAsync(exception);
+        }
     }
 }
