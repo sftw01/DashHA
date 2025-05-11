@@ -1,22 +1,29 @@
 ﻿using DashHA.Shared;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace DashHA.Client.Services.NotificationService
 {
     public class NotificationCardServiceClient : INotificationCardService
     {
-        public event Action<MqttMessage> OnNotificationReceived;
 
-        event Func<MqttMessage, Task> INotificationCardService.OnNotificationReceived
+        private readonly ILogger<NotificationCardServiceClient> _logger;
+        private readonly NavigationManager _navigationManager;
+        private HubConnection? _hubConnection;
+
+        public event Func<MqttMessage, Task> OnNotificationReceived;
+
+
+        public NotificationCardServiceClient(ILogger<NotificationCardServiceClient> logger, NavigationManager navigationManager)
         {
-            add
-            {
-                throw new NotImplementedException();
-            }
+            _logger = logger;
+            _navigationManager = navigationManager;
 
-            remove
-            {
-                throw new NotImplementedException();
-            }
         }
+
+
+
+
+
     }
 }
