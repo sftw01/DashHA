@@ -17,6 +17,11 @@ namespace DashHA.MqttNotificationService
 
             // handle notification when _notificationService receives any event
             _notificationService.OnNotificationReceived += RelayNotification;
+
+            //log information about the event
+
+            _logger.LogInformation($"Notification started ------>>> ");
+
         }
 
         // Method to relay the notification event
