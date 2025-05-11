@@ -17,32 +17,69 @@ namespace DashHA.Client.Services.NotificationService
             _logger = logger;
             _navigationManager = navigationManager;
 
-            InitializeAsync().GetAwaiter().GetResult();
+            //InitializeAsync();
         }
 
+        // Metoda inicjalizująca SignalR - ręcznie wywoływana
         public async Task InitializeAsync()
         {
-            _logger.LogInformation("Inicjalizacja NotificationCardServiceClient.. <--------------------.");
+            //if (_hubConnection is not null) return;
+
+
+            //_logger.LogInformation("Inicjalizacja NotificationCardServiceClient...");
+
+            //_hubConnection = new HubConnectionBuilder()
+            //    .WithUrl(_navigationManager.ToAbsoluteUri("/hubnotificationcard"))
+            //    .WithAutomaticReconnect()
+            //    .Build();
+
+            //_hubConnection.On<MqttMessage>("OnNotificationReceived", (message) =>
+            //{
+            //    _logger.LogInformation($"Otrzymano powiadomienie z SignalR: {message.Topic} - {message.Payload}");
+            //    if (OnNotificationReceived != null)
+            //    {
+            //        OnNotificationReceived.Invoke(message);
+            //    }
+            //});
+
+
+            //try
+            //{
+            //    await _hubConnection.StartAsync();
+            //    _logger.LogInformation("Połączenie z SignalR zostało nawiązane.");
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError($"Błąd podczas nawiązywania połączenia SignalR: {ex.Message}");
+            //}
+
+            if (_hubConnection is not null) return;
+
+            _logger.LogInformation("Starting MqttMessageService...");
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(_navigationManager.ToAbsoluteUri("/hubnotificationcard"))
+                .WithAutomaticReconnect()
                 .Build();
 
-            _hubConnection.On<MqttMessage>("OnNotificationReceived", async (message) =>
+            _hubConnection.On<MqttMessage>("ReceiveEvent !@!#!$", (message) =>
             {
-                _logger.LogInformation($"Otrzymano powiadomienie z SignalR: {message.Topic} - {message.Payload}");
-                if (OnNotificationReceived != null)
-                    await OnNotificationReceived.Invoke(message);
+
+                OnNotificationReceived?.Invoke(message);
             });
 
             await _hubConnection.StartAsync();
+
         }
 
+
+        // Metoda do zatrzymania połączenia
         public async Task StopAsync()
         {
             if (_hubConnection is not null)
             {
                 await _hubConnection.StopAsync();
                 await _hubConnection.DisposeAsync();
+                _logger.LogInformation("Połączenie SignalR zostało zakończone.");
             }
         }
     }

@@ -21,7 +21,7 @@ namespace DashHA.Hubs
         // Obsługa powiadomienia MQTT
         private async Task HandleMqttNotification(MqttMessage message)
         {
-            _logger.LogInformation($"Otrzymano powiadomienie MQTT: {message.Topic} - {message.Payload}");
+            _logger.LogInformation($"Otrzymano powiadomienie MQTT tu kurwa: {message.Topic} - {message.Payload}");
             //await Clients.All()
 
             //OnNotificationReceived

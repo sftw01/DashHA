@@ -2,7 +2,7 @@
 @* @rendermode InteractiveServerRenderMode *@
 @* @rendermode InteractiveServer *@
 
-@inject ILogger<TemperatureCard> _logger
+@* @inject ILogger<TemperatureCard> _logger *@
 
 @inject INotificationCardService _notificationCardService
 
@@ -49,7 +49,10 @@
         // Simulate receiving a message
         DisplayMessage("sensor8", "Hello from MQTT!");
 
-        _logger.LogInformation("OnInitializedAsync called in MessageCard");
+        //initialize Hub for signalR
+        _notificationCardService.InitializeAsync();
+
+        // _logger.LogInformation("OnInitializedAsync called in MessageCard");
         // Make the lambda async and return a Task
         _notificationCardService.OnNotificationReceived += async message =>
         {
@@ -70,9 +73,13 @@
 
     private void BtnEditClicked(MouseEventArgs args)
     {
-        _logger.LogInformation("Edit button clicked olowek");
+        // _logger.LogInformation("Edit button clicked olowek");
         // Handle the edit button click event here
         Console.WriteLine("Edit button clicked! olowek");
+    }
+
+    public void Dispose()
+    {
     }
 }
 

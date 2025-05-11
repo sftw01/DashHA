@@ -10,6 +10,8 @@ namespace DashHA.Client.Services.NotificationService
         //tjis methoid will be invoked every time a notification is received
         event Func<MqttMessage, Task> OnNotificationReceived;
 
+        Task InitializeAsync();
+
 
     }
 }

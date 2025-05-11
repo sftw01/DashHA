@@ -1,0 +1,49 @@
+﻿@* @rendermode InteractiveServerRenderMode *@
+@* @rendermode InteractiveServer *@
+
+
+
+
+        @* <div style="position: relative; margin: 10px 0;"> *@
+        @*     @if (isClient) *@
+        @*     { *@
+        @*         <MudIcon Icon="@Icons.Material.Filled.Computer" Color="Color.Info" /> *@
+        @*         <MudText Color="Color.Success" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">@platform</MudText> *@
+
+        @*     } *@
+        @*     else *@
+        @*     { *@
+        @*         <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Success" /> *@
+        @*         <MudText Color="Color.Info" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">@platform</MudText> *@
+        @*     } *@
+        @* </div> *@
+
+        @* <div style="position: relative; margin: 10px 0;"> *@
+        @*     @if (!OperatingSystem.IsBrowser()) *@
+        @*     { *@
+        @*         <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Info" /> *@
+        @*         <MudText Color="Color.Warning" Style="margin: 0; padding: 0;  display: inline-block; font-size: 1rem;">WebSocket</MudText> *@
+
+        @*     } *@
+        @*     else *@
+        @*     { *@
+        @*         <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Success" /> *@
+        @*         <MudText Color="Color.Success" Style="margin: 0; padding: 0; display: inline-block; font-size: 1rem;">SignalR</MudText> *@
+        @*     } *@
+        @* </div> *@
+
+
+
+
+
+@code {
+
+    // protected override void OnInitialized()
+    // {
+    //     platform = OperatingSystem.IsBrowser() ? "WASM Render" : "Server Render";
+
+    // }
+
+
+}
+

@@ -109,7 +109,7 @@ app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(DashHA.Client._Imports).Assembly);
 
 app.MapHub<HubMqtt>("/hubmqtt");
-app.MapHub<HubMqtt>("/hubnotificationcard");
+app.MapHub<HubNotificationCard>("/hubnotificationcard");
 
 
 app.MapFallbackToFile("index.html");

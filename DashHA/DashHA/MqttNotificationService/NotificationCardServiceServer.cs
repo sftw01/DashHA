@@ -44,5 +44,11 @@ namespace DashHA.MqttNotificationService
                 }
             }
         }
+
+        public Task InitializeAsync()
+        {
+            //mot used - for signaR only
+            return Task.CompletedTask;
+        }
     }
 }
