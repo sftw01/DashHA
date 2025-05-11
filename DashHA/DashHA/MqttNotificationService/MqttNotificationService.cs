@@ -21,12 +21,14 @@ namespace DashHA.MqttNotificationService
             _mqttService = mqttService;
 
             // Subscribing to the MQTT service message received event
+            //when mqttService receive any message
             _mqttService.OnMessageReceived += HandleMqttMessageReceivedAsync;
 
 
-
+            //hardcoding
             AddActiveEvent("sensor8");
-            _logger.LogInformation($"Received event class started");
+
+            _logger.LogInformation($" ----->>>> Received event class started");
 
         }
 

@@ -1,6 +1,6 @@
 ﻿using DashHA.Shared;
 
-namespace DashHA.Client.Services
+namespace DashHA.Client.Services.MessageService
 {
     public interface IMqttMessageService
     {

@@ -1,6 +1,6 @@
 ﻿using DashHA.Shared;
 
-namespace DashHA.Client.Services
+namespace DashHA.Client.Services.NotificationService
 {
     public interface INotificationCardService
     {
@@ -8,7 +8,7 @@ namespace DashHA.Client.Services
         //for client use - for notification service only!
 
         //tjis methoid will be invoked every time a notification is received
-        event Action<MqttMessage> OnNotificationReceived;
+        event Func<MqttMessage, Task> OnNotificationReceived;
 
 
     }

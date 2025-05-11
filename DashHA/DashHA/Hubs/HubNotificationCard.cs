@@ -1,4 +1,4 @@
-﻿using DashHA.Client.Services;
+﻿using DashHA.Client.Services.NotificationService;
 using Microsoft.AspNetCore.SignalR;
 
 namespace DashHA.Hubs

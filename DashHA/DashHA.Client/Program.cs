@@ -1,4 +1,5 @@
-using DashHA.Client.Services;
+using DashHA.Client.Services.MessageService;
+using DashHA.Client.Services.NotificationService;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor;
 using MudBlazor.Services;
@@ -16,7 +17,9 @@ builder.Services.AddMudServices();
 
 
 
+
 builder.Services.AddScoped<IMqttMessageService, MqttMessageService>();
+builder.Services.AddScoped<INotificationCardService, NotificationCardServiceClient>();
 
 builder.Services.AddMudServices(config =>
 {

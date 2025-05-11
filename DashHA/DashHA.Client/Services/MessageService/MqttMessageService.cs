@@ -1,9 +1,8 @@
-﻿
-using DashHA.Shared;
+﻿using DashHA.Shared;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace DashHA.Client.Services
+namespace DashHA.Client.Services.MessageService
 {
     public class MqttMessageService : IMqttMessageService
     {

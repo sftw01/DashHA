@@ -1,4 +1,4 @@
-﻿using DashHA.Client.Services;
+﻿using DashHA.Client.Services.MessageService;
 using DashHA.Shared;
 
 namespace DashHA.MqttService

@@ -1,0 +1,79 @@
+﻿@using DashHA.Client.Services.NotificationService
+@* @rendermode InteractiveServerRenderMode *@
+@* @rendermode InteractiveServer *@
+
+@inject ILogger<TemperatureCard> _logger
+
+@inject INotificationCardService _notificationCardService
+
+<!-- MQTT Message Display Panel -->
+<div class="mqtt-message-card bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-white/20" style="cursor: pointer;">
+    @if (isEditable)
+    {
+        <div style="z-index: 100;" class="edit-icon m-3" @onclick="BtnEditClicked">
+            ✏️
+        </div>
+    }
+
+    <h1 class="drop-shadow-lg text-center py-4" style=" font-size: 4rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
+        📩
+    </h1>
+    <h2 class="text-3xl font-semibold text-yellow-300">MQTT Message</h2>
+    <p class="text-2xl font-bold mt-2">@displayedMessage</p>
+    <p class="text-sm text-white/60 mt-1">Topic: @displayedTopic</p>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    public bool isEditable { get; set; } // You can set this to true if you want the edit button
+    private string displayedTopic = "No topic received";
+    private string displayedMessage = "No message received";
+
+    private string? _lastTopic;
+    private string? _lastPayload;
+
+    // Example method for handling received messages
+    void DisplayMessage(string topic, string payload)
+    {
+        _lastTopic = topic;
+        _lastPayload = payload;
+        displayedMessage = payload;
+
+        InvokeAsync(StateHasChanged);
+    }
+
+    // Temporary example to simulate receiving a message
+    protected override void OnInitialized()
+    {
+        // Simulate receiving a message
+        DisplayMessage("sensor8", "Hello from MQTT!");
+
+        _logger.LogInformation("OnInitializedAsync called in MessageCard");
+        // Make the lambda async and return a Task
+        _notificationCardService.OnNotificationReceived += async message =>
+        {
+            await DisplayMessageAsync(message.Topic, message.Payload);
+        };
+    }
+
+
+    // Example async method to handle the message
+    private async Task DisplayMessageAsync(string topic, string payload)
+    {
+        _lastTopic = topic;
+        _lastPayload = payload;
+        displayedMessage = payload;
+        displayedTopic = topic;
+        await InvokeAsync(StateHasChanged); // To trigger UI update
+    }
+
+    private void BtnEditClicked(MouseEventArgs args)
+    {
+        _logger.LogInformation("Edit button clicked olowek");
+        // Handle the edit button click event here
+        Console.WriteLine("Edit button clicked! olowek");
+    }
+}
+
+

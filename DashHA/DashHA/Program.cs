@@ -1,4 +1,5 @@
-using DashHA.Client.Services;
+using DashHA.Client.Services.MessageService;
+using DashHA.Client.Services.NotificationService;
 using DashHA.Components;
 using DashHA.Components.Account;
 using DashHA.Data;
@@ -27,6 +28,8 @@ builder.Services.AddSingleton<MqttToSignalRForwarder>();
 
 builder.Services.AddScoped<IMqttMessageService, MqttMessageServiceServer>();
 builder.Services.AddSingleton<IMqttNotificationService, MqttNotificationService>();
+builder.Services.AddScoped<INotificationCardService, NotificationCardServiceServer>();
+
 
 
 //builder.Services.AddDataProtection()
