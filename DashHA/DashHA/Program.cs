@@ -28,7 +28,7 @@ builder.Services.AddSingleton<MqttToSignalRForwarder>();
 
 builder.Services.AddScoped<IMqttMessageService, MqttMessageServiceServer>();
 builder.Services.AddSingleton<IMqttNotificationService, MqttNotificationService>();
-builder.Services.AddScoped<INotificationCardService, NotificationCardServiceServer>();
+builder.Services.AddSingleton<INotificationCardService, NotificationCardServiceServer>();
 
 
 
@@ -108,8 +108,8 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(DashHA.Client._Imports).Assembly);
 
-app.MapHub<HubMqtt>("/hubmqtt");
 app.MapHub<HubNotificationCard>("/hubnotificationcard");
+app.MapHub<HubMqtt>("/hubmqtt");
 
 
 app.MapFallbackToFile("index.html");

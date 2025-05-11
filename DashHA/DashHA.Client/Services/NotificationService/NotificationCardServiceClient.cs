@@ -23,48 +23,17 @@ namespace DashHA.Client.Services.NotificationService
         // Metoda inicjalizująca SignalR - ręcznie wywoływana
         public async Task InitializeAsync()
         {
-            //if (_hubConnection is not null) return;
-
-
-            //_logger.LogInformation("Inicjalizacja NotificationCardServiceClient...");
-
-            //_hubConnection = new HubConnectionBuilder()
-            //    .WithUrl(_navigationManager.ToAbsoluteUri("/hubnotificationcard"))
-            //    .WithAutomaticReconnect()
-            //    .Build();
-
-            //_hubConnection.On<MqttMessage>("OnNotificationReceived", (message) =>
-            //{
-            //    _logger.LogInformation($"Otrzymano powiadomienie z SignalR: {message.Topic} - {message.Payload}");
-            //    if (OnNotificationReceived != null)
-            //    {
-            //        OnNotificationReceived.Invoke(message);
-            //    }
-            //});
-
-
-            //try
-            //{
-            //    await _hubConnection.StartAsync();
-            //    _logger.LogInformation("Połączenie z SignalR zostało nawiązane.");
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError($"Błąd podczas nawiązywania połączenia SignalR: {ex.Message}");
-            //}
-
-            if (_hubConnection is not null) return;
-
-            _logger.LogInformation("Starting MqttMessageService...");
+            _logger.LogInformation("Starting MqttMessageService on client...");
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl(_navigationManager.ToAbsoluteUri("/hubnotificationcard"))
                 .WithAutomaticReconnect()
                 .Build();
 
-            _hubConnection.On<MqttMessage>("ReceiveEvent !@!#!$", (message) =>
+            _hubConnection.On<MqttMessage>("OnNotification", (message) =>
             {
 
                 OnNotificationReceived?.Invoke(message);
+                Console.WriteLine($"Otrzymano powiadomienie z SignalR < ===== : {message.Topic} - {message.Payload}");
             });
 
             await _hubConnection.StartAsync();

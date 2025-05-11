@@ -26,7 +26,13 @@ namespace DashHA.Hubs
 
             //OnNotificationReceived
             //    .SendAsync("OnNotificationReceived", message);
-            await Clients.All.SendAsync("OnNotificationReceived", message);
+
+            if (_mqttNotificationService != null)
+            {
+                await Clients.All.SendAsync("OnNotification", message);
+
+            }
+
 
         }
 
