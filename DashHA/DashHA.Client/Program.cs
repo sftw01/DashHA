@@ -18,8 +18,8 @@ builder.Services.AddMudServices();
 
 
 
-builder.Services.AddScoped<IMqttMessageService, MqttMessageService>();
 builder.Services.AddScoped<INotificationCardService, NotificationCardServiceClient>();
+builder.Services.AddScoped<IMqttMessageService, MqttMessageService>();
 
 builder.Services.AddMudServices(config =>
 {

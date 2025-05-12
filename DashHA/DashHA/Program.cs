@@ -108,7 +108,7 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(DashHA.Client._Imports).Assembly);
 
-app.MapHub<HubNotificationCard>("/hubnotificationcard");
+app.MapHub<HubNotificationCard>("/HubNotificationCard");
 app.MapHub<HubMqtt>("/hubmqtt");
 
 

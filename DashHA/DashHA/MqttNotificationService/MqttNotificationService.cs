@@ -1,5 +1,8 @@
-﻿using DashHA.MqttService;
+﻿using DashHA.Hubs;
+using DashHA.MqttService;
 using DashHA.Shared;
+using Microsoft.AspNetCore.SignalR;
+
 
 namespace DashHA.MqttNotificationService
 {
@@ -8,6 +11,8 @@ namespace DashHA.MqttNotificationService
         private readonly ILogger<MqttNotificationService> _logger;
         private readonly IMqttService _mqttService;
 
+        private readonly IHubContext<HubNotificationCard> _hubContext;
+
         // Event for notifying about received MQTT messages (async)
         public event Func<MqttMessage, Task>? OnNotificationReceived;
 
@@ -15,7 +20,7 @@ namespace DashHA.MqttNotificationService
         private List<string> activeEvents = new List<string>();
 
         // Constructor with dependency injection (logger and MQTT service)
-        public MqttNotificationService(ILogger<MqttNotificationService> logger, IMqttService mqttService)
+        public MqttNotificationService(ILogger<MqttNotificationService> logger, IMqttService mqttService, IHubContext<HubNotificationCard> hubContext)
         {
             _logger = logger;
             _mqttService = mqttService;
@@ -29,7 +34,7 @@ namespace DashHA.MqttNotificationService
             AddActiveEvent("sensor8");
 
             _logger.LogInformation($" ----->>>> Received event class started");
-
+            _hubContext = hubContext;
         }
 
         // Async method that handles incoming MQTT messages
@@ -38,7 +43,7 @@ namespace DashHA.MqttNotificationService
             // Check if the message topic is in the list of active events
             if (activeEvents.Contains(message.Topic))
             {
-                _logger.LogInformation($"Received MQTT event on topic: {message.Topic} payload: {message.Payload}");
+                _logger.LogInformation($"Received MQTT event on topic: {message.Topic} payload: {message.Payload} =======");
 
                 // If there are subscribers, invoke the event asynchronously
                 if (OnNotificationReceived != null)
@@ -46,7 +51,25 @@ namespace DashHA.MqttNotificationService
                     await OnNotificationReceived.Invoke(message);
                     _logger.LogInformation("OnReceiveNotificationEvent was invoked");
                 }
+
+
+                //and hubs when signalR is connected
+                if (_hubContext != null)
+                {
+                    try
+                    {
+                        // Send the message to all connected clients
+                        await _hubContext.Clients.All.SendAsync("OnNotification", message);
+                        _logger.LogInformation($"Sent notification to SignalR clients:  ---->>>><<<<<< {message.Topic} - {message.Payload}");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, "Error while sending notification to SignalR clients.");
+                    }
+                }
             }
+
+
         }
 
         // Add a new active topic (event) to monitor
