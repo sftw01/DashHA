@@ -6,7 +6,6 @@ namespace DashHA.Hubs
     {
         private readonly ILogger<HubNotificationCard> _logger;
 
-
         public HubNotificationCard(ILogger<HubNotificationCard> logger)
         {
             _logger = logger;
@@ -15,14 +14,14 @@ namespace DashHA.Hubs
         // Obsługa połączenia użytkownika
         public override async Task OnConnectedAsync()
         {
-            _logger.LogInformation($"Użytkownik z SignalR Id '{Context.ConnectionId}' połączony. - powiadomienie");
+            _logger.LogInformation($"User connected with SignalR ID: {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
         // Obsługa rozłączenia użytkownika
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-            _logger.LogInformation($"Użytkownik z SignalR Id '{Context.ConnectionId}' rozłączony. - powiadomienie");
+            _logger.LogInformation($"User disconnected with SignalR ID: {Context.ConnectionId}");
             await base.OnDisconnectedAsync(exception);
         }
     }
