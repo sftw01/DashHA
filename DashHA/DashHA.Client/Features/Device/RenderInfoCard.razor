@@ -6,11 +6,9 @@
 @inject IJSRuntime JSRuntime
 @inject ILogger<RenderInfoCard> _logger
 
-<div class="status-card bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-white/20" style="cursor: pointer;">
-    <div style="position: absolute; top: 0; right: 0; cursor: pointer; z-index: 10;" @onclick="RefreshPage">
-        <div class="drop-shadow-lg my-2 mx-2" style="font-size: 4rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
-            🔄
-        </div>
+<div class="render-info-card bg-white/10 backdrop-blur-md rounded-xl shadow-lg p-6 ring-1 ring-white/20" style="cursor: pointer;">
+    <div style="position: absolute; top: 0; right: 0; cursor: pointer; z-index: 10; padding: 10px;" @onclick="RefreshPage">
+        <MudIcon Icon="@Icons.Material.Filled.Download" Style="font-size: 4rem;" />
     </div>
 
     <h1 class="drop-shadow-lg text-center py-4" style="font-size: 4rem; font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;">
@@ -18,30 +16,37 @@
     </h1>
     <h2 class="text-3xl font-semibold text-blue-300">Połączenie</h2>
 
-    <div class="flex items-center justify-center mt-4">
-        @if (isClient)
-        {
-            <MudIcon Icon="@Icons.Material.Filled.Storage" Color="Color.Success" />
-            <MudText Color="Color.Success" Style="font-size: 1rem;">@platform</MudText>
-        }
-        else
-        {
-            <MudIcon Icon="@Icons.Material.Filled.Computer" Color="Color.Info" />
-            <MudText Color="Color.Info" Style="font-size: 1rem;">@platform</MudText>
-        }
+    <div class="flex items-center justify-center mt-1">
+
+        <MudText Style="font-size: 1.2rem;">@platform</MudText>
 
     </div>
 
-    <div class="flex items-center justify-center mt-2">
+    <div class="flex items-center justify-center mt-2 space-x-12">
         @if (!OperatingSystem.IsBrowser())
         {
-            <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Info" />
-            <MudText Color="Color.Warning" Style="font-size: 1rem;">WebSocket</MudText>
+            @* <div class="flex items-center space-x-1 render-info-animation2"> *@
+            <div class="flex items-center space-x-1">
+                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Info" />
+                <MudText Color="Color.Warning" Style="font-size: 1rem;">WebSocket</MudText>
+            </div>
+
+            <div class="flex items-center space-x-1">
+                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Style="color: #999;"/>
+                <MudText Style="font-size: 1rem; color: #999;">SignalR</MudText>
+            </div>
         }
         else
         {
-            <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Success" />
-            <MudText Color="Color.Success" Style="font-size: 1rem;">SignalR</MudText>
+            <div class="flex items-center space-x-1 render-info-dim">
+                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Style="color: #999;" />
+                <MudText Style="font-size: 1rem; color: #999;">WebSocket</MudText>
+            </div>
+
+            <div class="flex items-center space-x-1 render-info-animation">
+                <MudIcon Icon="@Icons.Material.Filled.FlashOn" Color="Color.Success" />
+                <MudText Color="Color.Success" Style="font-size: 1rem;">SignalR</MudText>
+            </div>
         }
     </div>
 </div>

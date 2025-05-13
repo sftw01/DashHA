@@ -3,30 +3,25 @@
 }
 
 
-.temperature-card{
-
+.status-card {
 }
 
-    .temperature-card .edit-icon {
+    .status-card .edit-icon {
         position: absolute;
         top: 0;
         right: 0;
         padding: 1rem;
-
         font-size: 2.5rem;
         display: flex;
         justify-content: center;
         align-items: center;
-
-
         border: 2px dashed gray;
         border-radius: 50%;
-
     }
 
 
 @media screen and (max-width: 639px) {
-    .temperature-card .edit-icon {
+    .status-card .edit-icon {
         height: 20vw;
         width: 20vw;
     }
